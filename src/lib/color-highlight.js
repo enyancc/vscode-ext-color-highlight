@@ -57,5 +57,3 @@ function addColorHighlight (editor) {
 
   return;
 }
-
-
