@@ -1,13 +1,13 @@
-# README
-## This is the README for your extension "color-highlight" 
-You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
+# [vscode-ext-color-highlight](https://github.com/naumovs/vscode-ext-color-highlight)
 
-* Split the editor (`Cmd+\` on OSX or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on OSX or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (OSX) to see a list of Markdown snippets
+This extension adds a colored border around the css/web colors found in your document
 
-### For more information
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+## Install
 
-** Enjoy!**
+In VSC press Ctrl+Shift+P (Cmd+Shift+P on Mac) then type ">ext install", hit enter, search "Color Highlight".
+
+Still confused? Click "Get Started" above.
+
+## Contribution
+
+Feel free to contribute!
