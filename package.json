@@ -1,0 +1,33 @@
+{
+  "name": "color-highlight",
+  "displayName": "Color Highlight",
+  "description": "Highlight web colors in your editor",
+  "version": "0.0.1",
+  "publisher": "naumovs",
+  "engines": {
+    "vscode": "^0.10.1"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:css",
+    "onLanguage:xml",
+    "onLanguage:html",
+    "onLanguage:javascript"
+  ],
+  "scripts": {
+    "vscode:prepublish": "node ./node_modules/webpack/bin/webpack.js -p",
+    "compile": "node ./node_modules/webpack/bin/webpack.js -w"
+  },
+  "main": "./dist/extension",
+  "contributes": {},
+  "devDependencies": {
+    "color": "^0.11.1",
+    "css-color-names": "0.0.3",
+    "debounce": "^1.0.0",
+    "json-loader": "^0.5.4",
+    "vscode": "0.10.x",
+    "webpack": "^1.12.12"
+  }
+}
