@@ -22,6 +22,7 @@
     "compile": "node ./node_modules/webpack/bin/webpack.js -w"
   },
   "main": "./dist/extension",
+  "icon": "images/preview.png",
   "contributes": {},
   "devDependencies": {
     "color": "^0.11.1",
