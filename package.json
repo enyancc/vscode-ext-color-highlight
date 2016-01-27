@@ -18,7 +18,7 @@
     "onLanguage:javascript"
   ],
   "scripts": {
-    "vscode:prepublish": "node ./node_modules/webpack/bin/webpack.js -p",
+    "vscode:prepublish": "node ./node_modules/webpack/bin/webpack.js",
     "compile": "node ./node_modules/webpack/bin/webpack.js -w"
   },
   "main": "./dist/extension",
