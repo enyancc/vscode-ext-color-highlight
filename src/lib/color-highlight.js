@@ -18,6 +18,7 @@ function activate (context) {
 
   vscode.window.onDidChangeActiveTextEditor(editor => {
     activeEditor = editor;
+    cleanDecorations();
     triggerUpdateDecorations();
   }, null, context.subscriptions);
 
@@ -25,6 +26,11 @@ function activate (context) {
     if (activeEditor && event.document === activeEditor.document) {
       triggerUpdateDecorations(event);
     }
+  }, null, context.subscriptions);
+
+  vscode.workspace.onDidOpenTextDocument(event => {
+    cleanDecorations();
+    triggerUpdateDecorations();
   }, null, context.subscriptions);
 
   triggerUpdateDecorations();
@@ -39,11 +45,8 @@ function deactivate () {
 function triggerUpdateDecorations (event) {
   if (event && event.contentChanges) {
     event.contentChanges.forEach(change => {
-      console.log(change);
       const changeRange = change.range;
       const decorations = decorationsByLine[changeRange.start.line]
-
-      console.log('event', decorations, changeRange);
 
       if (decorations) {
         decorations.forEach(item => {
@@ -63,12 +66,14 @@ function triggerUpdateDecorations (event) {
 }
 
 function updateDecorations () {
-  if (!activeEditor) {
+
+  const currentEditor = activeEditor;
+  if (!currentEditor) {
     return;
   }
 
   colorFinder
-    .findAll(activeEditor.document.getText())
+    .findAll(currentEditor.document.getText())
     .then(colorRanges => {
       const currentState = {};
 
@@ -81,13 +86,13 @@ function updateDecorations () {
       for (let i = 0, l = colorRanges.length; i < l; i++) {
         const item = colorRanges[i];
 
-        const start = activeEditor.document.positionAt(item.start);
-        const end = activeEditor.document.positionAt(item.end);
+        const start = currentEditor.document.positionAt(item.start);
+        const end = currentEditor.document.positionAt(item.end);
         const color = item.color;
 
         const range = new vscode.Range(start, end);
 
-        const key = getKeyFromRange(range, color);
+        const key = getKeyFromRange(range);
 
         if (currentState[key]) {
           currentState[key].found = true;
@@ -113,7 +118,9 @@ function updateDecorations () {
         decorationsByLine[range.start.line] = decorationsByLine[range.start.line] || [];
         decorationsByLine[range.start.line].push(record);
 
-        activeEditor.setDecorations(rangeDecoration, [ range ]);
+        setTimeout(() => {
+          currentEditor && currentEditor.setDecorations(rangeDecoration, [ range ]);
+        }, 10 * i);
       }
 
       const keys = Object.keys(currentState);
@@ -130,10 +137,9 @@ function updateDecorations () {
   return;
 }
 
-function getKeyFromRange (range, color) {
+function getKeyFromRange (range) {
   return `${range.start.line}:${range.start.character}` +
-      `-${range.end.line}:${range.end.character}` +
-      `-${color}`;
+      `-${range.end.line}:${range.end.character}`;
 }
 
 function cleanDecorations () {
@@ -143,4 +149,6 @@ function cleanDecorations () {
       decorationsHash[i] = null;
     }
   }
+  decorationsHash = [];
+  decorationsByLine = {};
 }

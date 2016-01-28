@@ -2,7 +2,7 @@
   "name": "color-highlight",
   "displayName": "Color Highlight",
   "description": "Highlight web colors in your editor",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "publisher": "naumovs",
   "engines": {
     "vscode": "^0.10.1"
