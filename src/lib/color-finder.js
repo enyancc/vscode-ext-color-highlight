@@ -15,7 +15,6 @@ module.exports = {
   findAll: findAll
 };
 
-
 function findAll (text) {
   return Promise.all([
     findAllHex(text),
@@ -80,7 +79,6 @@ function findAllHex (text) {
       match = colorHexRe.exec(text);
     }
 
-
     resolve(result);
   });
 }
@@ -108,7 +106,6 @@ function findAllRgba (text) {
 
       match = colorRgba.exec(text);
     }
-
 
     resolve(result);
   });
