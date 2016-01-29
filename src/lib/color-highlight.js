@@ -1,154 +1,111 @@
 'use strict';
-const vscode = require('vscode');
-
 const colorFinder = require('./color-finder');
 
-let triggerTimeout = null;
-let activeEditor = null;
-let decorationsHash = [];
-let decorationsByLine = {};
+class ColorHighlight {
 
-module.exports = {
-  activate: activate,
-  deactivate: deactivate
-};
+  constructor (vscode, document, editor) {
+    this.vscode = vscode;
+    this.window = vscode.window;
 
-function activate (context) {
-  activeEditor = vscode.window.activeTextEditor;
+    this.document = document;
 
-  vscode.window.onDidChangeActiveTextEditor(editor => {
-    activeEditor = editor;
-    cleanDecorations();
-    triggerUpdateDecorations();
-  }, null, context.subscriptions);
+    this.colors = {};
+    this.decorations = [];
 
-  vscode.workspace.onDidChangeTextDocument(event => {
-    if (activeEditor && event.document === activeEditor.document) {
-      triggerUpdateDecorations(event);
+    if (editor) {
+      this.update(editor);
     }
-  }, null, context.subscriptions);
-
-  vscode.workspace.onDidOpenTextDocument(event => {
-    cleanDecorations();
-    triggerUpdateDecorations();
-  }, null, context.subscriptions);
-
-  triggerUpdateDecorations();
-}
-
-
-function deactivate () {
-  cleanDecorations();
-}
-
-
-function triggerUpdateDecorations (event) {
-  if (event && event.contentChanges) {
-    event.contentChanges.forEach(change => {
-      const changeRange = change.range;
-      const decorations = decorationsByLine[changeRange.start.line]
-
-      if (decorations) {
-        decorations.forEach(item => {
-          if (item.range.contains(changeRange) || item.range.start.isEqual(changeRange.start)) {
-            item.rangeDecoration.dispose();
-            decorationsHash.splice(decorationsHash.indexOf(item), 1);
-          }
-        });
-      }
-    });
   }
 
-  if (triggerTimeout) {
-    clearTimeout(triggerTimeout);
+  /**
+   * @param {TextEditor} editor
+   */
+  update (editor) {
+    if (!editor || !editor.document || editor.document.fileName !== this.document.fileName) {
+      return;
+    }
+
+    colorFinder
+      .findAll(this.document.getText())
+      .then(processColorFinderResults)
+      .then(colorRanges => {
+        const updateStack = Object.keys(this.colors)
+          .reduce((state, color) => {
+            state[color] = [];
+            return state;
+          }, {});
+
+        for (const color in colorRanges) {
+          updateStack[color] = colorRanges[color].map(item => {
+            return new this.vscode.Range(
+              this.document.positionAt(item.start),
+              this.document.positionAt(item.end)
+            );
+          });
+        }
+
+        for (const color in updateStack) {
+          editor.setDecorations(this.getColorDecoration(color), updateStack[color]);
+        }
+      }).catch(error => console.log(error));
   }
-  triggerTimeout = setTimeout(updateDecorations, 500);
-}
 
-function updateDecorations () {
-
-  const currentEditor = activeEditor;
-  if (!currentEditor) {
-    return;
-  }
-
-  colorFinder
-    .findAll(currentEditor.document.getText())
-    .then(colorRanges => {
-      const currentState = {};
-
-      decorationsByLine = [];
-      decorationsHash.forEach(item => {
-        currentState[getKeyFromRange(item.range, item.color)] = item;
-        item.found = false;
+  getColorDecoration (color) {
+    if (!this.colors[color]) {
+      this.colors[color] = this.window.createTextEditorDecorationType({
+        overviewRulerColor: color,
+        borderColor: color,
+        borderStyle: 'solid',
+        borderWidth: '3px'
       });
-
-      for (let i = 0, l = colorRanges.length; i < l; i++) {
-        const item = colorRanges[i];
-
-        const start = currentEditor.document.positionAt(item.start);
-        const end = currentEditor.document.positionAt(item.end);
-        const color = item.color;
-
-        const range = new vscode.Range(start, end);
-
-        const key = getKeyFromRange(range);
-
-        if (currentState[key]) {
-          currentState[key].found = true;
-
-          continue;
-        }
-
-        const rangeDecoration = vscode.window.createTextEditorDecorationType({
-          overviewRulerColor: color,
-          borderColor: color,
-          borderStyle: 'solid',
-          borderWidth: '3px'
-        });
-
-        const record = {
-          key,
-          color,
-          range,
-          rangeDecoration
-        };
-
-        decorationsHash.push(record);
-        decorationsByLine[range.start.line] = decorationsByLine[range.start.line] || [];
-        decorationsByLine[range.start.line].push(record);
-
-        setTimeout(() => {
-          currentEditor && currentEditor.setDecorations(rangeDecoration, [ range ]);
-        }, 10 * i);
-      }
-
-      const keys = Object.keys(currentState);
-
-      for (let i = keys.length; i > 0; --i) {
-        const key = keys[i];
-        if (currentState[key] && currentState[key].found === false) {
-          currentState[key].rangeDecoration.dispose();
-          decorationsHash.splice(decorationsHash.indexOf(currentState[key]), 1);
-        }
-      }
-    });
-
-  return;
-}
-
-function getKeyFromRange (range) {
-  return `${range.start.line}:${range.start.character}` +
-      `-${range.end.line}:${range.end.character}`;
-}
-
-function cleanDecorations () {
-  for (let i = decorationsHash.length; i > 0; --i) {
-    if (decorationsHash[i] && decorationsHash[i].dispose) {
-      decorationsHash[i].dispose();
-      decorationsHash[i] = null;
     }
+
+    return this.colors[color];
   }
-  decorationsHash = [];
-  decorationsByLine = {};
+
+  triggerUpdate (activeEditor) {
+    this.cancelUpdate();
+    this.updateTimeout = setTimeout(() => this.update(activeEditor), 500);
+  }
+
+  cancelUpdate () {
+    clearTimeout(this.updateTimeout);
+  }
+
+  dispose () {
+    // TODO: dispose ()
+    if (this.disposed) {
+      return;
+    }
+
+    for (const i in this.colors) {
+      this.colors[i].dispose();
+    }
+
+    this.cancelUpdate();
+    this.document = null;
+    this.vscode = null;
+    this.window = null;
+
+    this.colors = null;
+    this.decorations = null;
+
+    this.disposed = true;
+  }
+
 }
+
+
+function processColorFinderResults (results) {
+  return results.reduce((collection, item) => {
+    if (!collection[item.color]) {
+      collection[item.color] = [];
+    }
+
+    collection[item.color].push(item);
+
+    return collection;
+  }, {});
+}
+
+module.exports = ColorHighlight;

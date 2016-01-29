@@ -1,5 +1,5 @@
 module.exports = {
-  entry: './src/extension.js',
+  entry: './src/main.js',
   output: {
     libraryTarget: 'commonjs2',
     filename: 'dist/extension.js'
