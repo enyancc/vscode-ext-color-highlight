@@ -2,7 +2,6 @@
 const Color = require('color');
 const webColors = require('color-name');
 
-
 const preparedRePart = Object.keys(webColors)
   .map(color => '\\b' + color + '\\b')
   .join('|');
@@ -41,7 +40,7 @@ function findAllRegex (expr, text) {
       let color;
 
       try {
-        color = Color(webColors[match[0]]).rgbaString();
+        color = Color(match[0]).rgbaString();
         result.push({
           start,
           end,

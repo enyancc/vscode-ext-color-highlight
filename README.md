@@ -8,6 +8,14 @@ In VSC press Ctrl+Shift+P (Cmd+Shift+P on Mac) then type ">ext install", hit ent
 
 Still confused? Click "Get Started" above.
 
+
+## Changelist
+
+### 1.1
+  - Refactored code to prevent memory leaks.
+  - Added configuration for the extension.
+  - Added command highlight current file (if it's not configured to be highlighted automatically)
+
 ## Contribution
 
 Feel free to contribute!

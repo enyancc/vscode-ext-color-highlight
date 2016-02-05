@@ -1,27 +1,22 @@
 'use strict';
+const window = require('vscode').window;
+const Range = require('vscode').Range;
+
 const colorFinder = require('./color-finder');
 
 class ColorHighlight {
 
-  constructor (vscode, document, editor) {
-    this.vscode = vscode;
-    this.window = vscode.window;
-
+  constructor (document) {
     this.document = document;
 
     this.colors = {};
     this.decorations = [];
-
-    if (editor) {
-      this.update(editor);
-    }
   }
 
-  /**
-   * @param {TextEditor} editor
-   */
-  update (editor) {
-    if (!editor || !editor.document || editor.document.fileName !== this.document.fileName) {
+  update () {
+    const currentDoc = window.activeTextEditor && window.activeTextEditor.document;
+
+    if (currentDoc && currentDoc.fileName !== this.document.fileName) {
       return;
     }
 
@@ -37,7 +32,7 @@ class ColorHighlight {
 
         for (const color in colorRanges) {
           updateStack[color] = colorRanges[color].map(item => {
-            return new this.vscode.Range(
+            return new Range(
               this.document.positionAt(item.start),
               this.document.positionAt(item.end)
             );
@@ -45,14 +40,14 @@ class ColorHighlight {
         }
 
         for (const color in updateStack) {
-          editor.setDecorations(this.getColorDecoration(color), updateStack[color]);
+          window.activeTextEditor.setDecorations(this.getColorDecoration(color), updateStack[color]);
         }
       }).catch(error => console.log(error));
   }
 
   getColorDecoration (color) {
     if (!this.colors[color]) {
-      this.colors[color] = this.window.createTextEditorDecorationType({
+      this.colors[color] = window.createTextEditorDecorationType({
         overviewRulerColor: color,
         borderColor: color,
         borderStyle: 'solid',
@@ -63,9 +58,11 @@ class ColorHighlight {
     return this.colors[color];
   }
 
-  triggerUpdate (activeEditor) {
+  triggerUpdate () {
     this.cancelUpdate();
-    this.updateTimeout = setTimeout(() => this.update(activeEditor), 500);
+    this.updateTimeout = setTimeout(() => this.update(), 500);
+
+    return Promise.resolve();
   }
 
   cancelUpdate () {
@@ -78,25 +75,22 @@ class ColorHighlight {
       return;
     }
 
+    this.cancelUpdate();
+
     for (const i in this.colors) {
       this.colors[i].dispose();
     }
 
-    this.cancelUpdate();
-    this.document = null;
-    this.vscode = null;
-    this.window = null;
-
-    this.colors = null;
     this.decorations = null;
+    this.document = null;
+    this.colors = null;
 
     this.disposed = true;
   }
-
 }
 
-
 function processColorFinderResults (results) {
+
   return results.reduce((collection, item) => {
     if (!collection[item.color]) {
       collection[item.color] = [];

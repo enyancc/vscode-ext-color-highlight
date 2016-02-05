@@ -3,53 +3,93 @@
 const vscode = require('vscode');
 const ColorHighlight = require('./lib/color-highlight');
 
-const instances = {};
+const state = {};
 
-function activate (context) {
-  vscode.window.visibleTextEditors.forEach((editor) => {
-    getInstanceForDocument(context, editor.document)
-      .triggerUpdate(editor);
-  });
+let config;
+let context;
 
-  vscode.window.onDidChangeActiveTextEditor(editor => {
-    getInstanceForDocument(context, editor.document)
-      .triggerUpdate(vscode.window.activeTextEditor);
-  }, null, context.subscriptions);
+function activate (ctx) {
+  config = vscode.workspace.getConfiguration('color-highlight');
+
+  if (!config.enabled) {
+    config = null;
+    return false;
+  }
+
+  context = ctx;
+
+  const textEditorCommand = vscode.commands.registerTextEditorCommand('extension.colorHighlight', enable);
+
+  vscode.window.onDidChangeActiveTextEditor(editor => enable(editor), null, context.subscriptions);
+  vscode.workspace.onDidCloseTextDocument(disable, null, context.subscriptions);
 
   vscode.workspace.onDidChangeTextDocument(event => {
     const activeTextEditor = vscode.window.activeTextEditor;
 
     if (activeTextEditor && event.document === activeTextEditor.document) {
-      getInstanceForDocument(context, activeTextEditor.document)
-        .triggerUpdate(activeTextEditor);
+      enable(activeTextEditor);
     }
   }, null, context.subscriptions);
 
-  vscode.workspace.onDidCloseTextDocument(document => {
-    getInstanceForDocument(context, document)
-      .dispose();
 
-    instances[document.fileName] = null;
-  }, null, context.subscriptions);
+  enable(vscode.window.activeTextEditor);
+
+  context.subscriptions.push(textEditorCommand);
 }
 
-function deactivate () {}
+function enable (editor, edit) {
+  if (!editor) {
+    Promise.resolve(null);
+  }
+
+  return getInstanceForDocument(editor.document, !!edit)
+    .then(instance => instance && instance.triggerUpdate());
+}
+
+function disable (document) {
+  return getInstanceForDocument(document)
+    .then(instance => instance && instance.dispose());
+}
+
+function deactivate () {
+  context = null;
+  config = null;
+
+  Object.keys(state).forEach(key => {
+    if (state[key]) {
+      state[key].dispose();
+      state[key] = null;
+    }
+  });
+}
 
 module.exports = {
   activate,
   deactivate
 };
 
+function getInstanceForDocument (document, force) {
+  const fileName = context && document && document.fileName;
 
-function getInstanceForDocument (context, document, editor) {
-  if (!instances[document.fileName]) {
-    instances[document.fileName] = new ColorHighlight(vscode, document);
-    instances[document.fileName].triggerUpdate(editor);
-
-    if (context && context.subscriptions) {
-      context.subscriptions.push(instances[document.fileName]);
-    }
+  if (!fileName) {
+    return Promise.resolve(null);
   }
 
-  return instances[document.fileName];
+  if (state[fileName] && state[fileName].disposed !== false) {
+    return Promise.resolve(state[fileName]);
+  }
+
+  if ((filterDoc(document) || force) && (!state[fileName] || state[fileName].disposed))  {
+    state[fileName] = new ColorHighlight(document);
+  }
+
+  return Promise.resolve(state[fileName]);
+}
+
+function filterDoc (document) {
+  if (document && config) {
+    return config.languages.indexOf(document.languageId) !== -1;
+  }
+
+  return false;
 }
