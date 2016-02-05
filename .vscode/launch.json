@@ -8,7 +8,8 @@
 			"request": "launch",
 			"runtimeExecutable": "${execPath}",
 			"args": ["--extensionDevelopmentPath=${workspaceRoot}" ],
-			"stopOnEntry": false
+			"stopOnEntry": false,
+      "sourceMaps": true
 		},
 		{
 			"name": "Launch Tests",

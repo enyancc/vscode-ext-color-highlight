@@ -1,6 +1,6 @@
 'use strict';
 const Color = require('color');
-const webColors = require('css-color-names');
+const webColors = require('color-name');
 
 
 const preparedRePart = Object.keys(webColors)
@@ -8,7 +8,7 @@ const preparedRePart = Object.keys(webColors)
   .join('|');
 
 const colorWeb = new RegExp('\\(' + preparedRePart + '\\)', 'g');
-const colorHexRe = /(\#([a-f0-9]{6}|[a-f0-9]{3}))/gi;
+const colorHex = /(\#([a-f0-9]{6}|[a-f0-9]{3}))/gi;
 const colorRgba = /(rgba?\([\d]{1,3},\s*[\d]{1,3},\s*[\d]{1,3}(,\s*\d?\.?\d)?\))/gi;
 
 module.exports = {
@@ -17,9 +17,9 @@ module.exports = {
 
 function findAll (text) {
   return Promise.all([
-    findAllHex(text),
-    findAllRgba(text),
-    findLiteralColors(text)
+    findAllRegex(colorRgba, text),
+    findAllRegex(colorHex, text),
+    findAllRegex(colorWeb, text)
   ]).then(data => {
     let results = [];
 
@@ -29,14 +29,14 @@ function findAll (text) {
   });
 }
 
-function findLiteralColors (text) {
+function findAllRegex (expr, text) {
   return new Promise((resolve, reject) => {
-    let match = colorWeb.exec(text);
+    let match = expr.exec(text);
     let result = [];
 
     while (match !== null) {
       const start = match.index;
-      const end = colorWeb.lastIndex;
+      const end = expr.lastIndex;
 
       let color;
 
@@ -49,64 +49,10 @@ function findLiteralColors (text) {
         });
       } catch (e) {}
 
-      match = colorWeb.exec(text);
+      match = expr.exec(text);
     }
 
     resolve(result);
   });
 }
 
-function findAllHex (text) {
-  return new Promise((resolve, reject) => {
-    let match = colorHexRe.exec(text);
-    let result = [];
-
-    while (match !== null) {
-      const start = match.index;
-      const end = colorHexRe.lastIndex;
-
-      let color;
-
-      try {
-        color = Color(match[0]).rgbaString();
-        result.push({
-          start,
-          end,
-          color
-        });
-      } catch (e) {}
-
-      match = colorHexRe.exec(text);
-    }
-
-    resolve(result);
-  });
-}
-
-
-function findAllRgba (text) {
-  return new Promise((resolve, reject) => {
-    let match = colorRgba.exec(text);
-    let result = [];
-
-    while (match !== null) {
-      const start = match.index;
-      const end = colorRgba.lastIndex;
-
-      let color;
-
-      try {
-        color = Color(match[0]).hexString();
-        result.push({
-          start,
-          end,
-          color
-        });
-      } catch (e) {}
-
-      match = colorRgba.exec(text);
-    }
-
-    resolve(result);
-  });
-}

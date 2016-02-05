@@ -5,7 +5,6 @@ const ColorHighlight = require('./lib/color-highlight');
 
 const instances = {};
 
-
 function activate (context) {
   vscode.window.visibleTextEditors.forEach((editor) => {
     getInstanceForDocument(context, editor.document)
