@@ -14,13 +14,17 @@ class ColorHighlight {
   }
 
   update () {
+    if (this.disposed) {
+      return;
+    }
+
     const activeEditorFileName = window.activeTextEditor &&
       window.activeTextEditor.document &&
       window.activeTextEditor.document.fileName;
 
     const currentDocumentFileName = this.document && this.document.fileName;
 
-    if (currentDocumentFileName && activeEditorFileName === currentDocumentFileName) {
+    if (currentDocumentFileName && activeEditorFileName !== currentDocumentFileName) {
       return;
     }
 
@@ -64,7 +68,9 @@ class ColorHighlight {
 
   triggerUpdate () {
     this.cancelUpdate();
-    this.updateTimeout = setTimeout(() => this.update(), 500);
+    this.updateTimeout = setTimeout(() => {
+      this.update();
+    }, 500);
 
     return Promise.resolve();
   }

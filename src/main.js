@@ -48,7 +48,14 @@ function enable (editor, edit) {
 
 function disable (document) {
   return getInstanceForDocument(document)
-    .then(instance => instance && instance.dispose());
+    .then(instance => {
+      const fileName = instance && instance.document && instance.document.fileName;
+
+      if (fileName) {
+        instance && instance.dispose();
+        state[fileName] = null;
+      }
+    });
 }
 
 function deactivate () {
