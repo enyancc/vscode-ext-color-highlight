@@ -2,7 +2,7 @@
   "name": "color-highlight",
   "displayName": "Color Highlight",
   "description": "Highlight web colors in your editor",
-  "version": "1.1.4",
+  "version": "1.1.6",
   "publisher": "naumovs",
   "engines": {
     "vscode": "^0.10.1"
@@ -30,7 +30,7 @@
     "configuration": {
       "title": "Color Highlight extension (reboot after any changes required)",
       "properties": {
-        "color-highlight.enabled": {
+        "color-highlight.enable": {
           "default": true,
           "title": "Global enable switch for user/workspace settings",
           "type": "boolean"

@@ -11,7 +11,7 @@ let context;
 function activate (ctx) {
   config = vscode.workspace.getConfiguration('color-highlight');
 
-  if (!config.enabled) {
+  if (!config.enable) {
     config = null;
     return false;
   }
