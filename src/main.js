@@ -26,7 +26,7 @@ function activate (ctx) {
   vscode.workspace.onDidChangeTextDocument(event => {
     const activeTextEditor = vscode.window.activeTextEditor;
 
-    if (activeTextEditor && event.document === activeTextEditor.document) {
+    if (activeTextEditor && event && event.document === activeTextEditor.document) {
       enable(activeTextEditor);
     }
   }, null, context.subscriptions);
