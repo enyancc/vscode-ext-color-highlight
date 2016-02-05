@@ -39,7 +39,7 @@ function activate (ctx) {
 
 function enable (editor, edit) {
   if (!editor) {
-    Promise.resolve(null);
+    return Promise.resolve(null);
   }
 
   return getInstanceForDocument(editor.document, !!edit)
