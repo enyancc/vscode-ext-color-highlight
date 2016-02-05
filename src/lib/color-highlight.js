@@ -14,9 +14,13 @@ class ColorHighlight {
   }
 
   update () {
-    const currentDoc = window.activeTextEditor && window.activeTextEditor.document;
+    const activeEditorFileName = window.activeTextEditor &&
+      window.activeTextEditor.document &&
+      window.activeTextEditor.document.fileName;
 
-    if (currentDoc && currentDoc.fileName !== this.document.fileName) {
+    const currentDocumentFileName = this.document && this.document.fileName;
+
+    if (currentDocumentFileName && activeEditorFileName === currentDocumentFileName) {
       return;
     }
 
