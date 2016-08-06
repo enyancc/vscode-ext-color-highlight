@@ -39,6 +39,11 @@
           "default": [ "javascript", "scss", "css", "sass", "less", "php", "xml", "html", "json" ],
           "title": "Autohighlight files with these languages",
           "type": "array"
+        },
+        "color-highlight.markerType": {
+          "default": "outline",
+          "title": "Highlight style, valid types: 'background', 'outline', 'underline'",
+          "type": "string"
         }
       }
     },
