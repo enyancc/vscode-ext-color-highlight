@@ -3,11 +3,13 @@ const window = require('vscode').window;
 const Range = require('vscode').Range;
 
 const colorFinder = require('./color-finder');
+const getColorContrast = require('./dynamic-contrast');
 
 class ColorHighlight {
 
-  constructor (document) {
+  constructor (document, markerType) {
     this.document = document;
+    this.markerType = markerType;
 
     this.colors = {};
     this.decorations = [];
@@ -53,14 +55,28 @@ class ColorHighlight {
       }).catch(error => console.log(error));
   }
 
-  getColorDecoration (color) {
+  getColorDecoration(color) {
+    let rules = {
+      overviewRulerColor: color
+    };
+
+    switch (this.markerType) {
+      case 'background':
+        rules.backgroundColor = color;
+        rules.color = getColorContrast(color) === 'dark' ? '#111' : '#fff';
+        break;
+      case 'underline':
+        rules.color = 'inherit; border-bottom:solid 2px ' + color;
+        break;
+      default:  // outline
+        rules.borderColor = color;
+        rules.borderStyle = 'solid';
+        rules.borderWidth = '3px';
+        break;
+    }
+
     if (!this.colors[color]) {
-      this.colors[color] = window.createTextEditorDecorationType({
-        overviewRulerColor: color,
-        borderColor: color,
-        borderStyle: 'solid',
-        borderWidth: '3px'
-      });
+      this.colors[color] = window.createTextEditorDecorationType(rules);
     }
 
     return this.colors[color];
