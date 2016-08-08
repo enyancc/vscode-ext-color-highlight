@@ -1,6 +1,6 @@
 # [vscode-ext-color-highlight](https://github.com/naumovs/vscode-ext-color-highlight)
 
-This extension adds a colored border around the css/web colors found in your document
+This extension styles css/web colors found in your document.
 
 ## Install
 
