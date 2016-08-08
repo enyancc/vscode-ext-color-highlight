@@ -11,11 +11,16 @@ Still confused? Click "Get Started" above.
 
 ## Changelist
 
+### 1.2
+  - New styling modes for the marker: background, underline. Default is "background" now
+
 ### 1.1
   - Refactored code to prevent memory leaks.
   - Added configuration for the extension.
   - Added command highlight current file (if it's not configured to be highlighted automatically)
 
-## Contribution
+## Contributors
+
+  - [lochstar](https://github.com/lochstar) - Styling modes for the marker
 
 Feel free to contribute!
