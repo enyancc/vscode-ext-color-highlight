@@ -11,6 +11,9 @@ Still confused? Click "Get Started" above.
 
 ## Changelist
 
+### 1.2.1
+  - Added new option to disable color words highlight.
+
 ### 1.2
   - New styling modes for the marker: background, underline. Default is "background" now
 

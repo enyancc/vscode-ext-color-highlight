@@ -2,7 +2,7 @@
   "name": "color-highlight",
   "displayName": "Color Highlight",
   "description": "Highlight web colors in your editor",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "publisher": "naumovs",
   "engines": {
     "vscode": "^0.10.1"
@@ -40,6 +40,11 @@
           "title": "Autohighlight files with these languages",
           "type": "array"
         },
+        "color-highlight.matchWords": {
+          "default": true,
+          "title": "Highlight color words in files (grey, green, etc.)",
+          "type": "boolean"
+        },
         "color-highlight.markerType": {
           "default": "background",
           "title": "Highlight style, valid types: 'background', 'outline', 'underline'",
@@ -60,6 +65,6 @@
     "color-name": "^1.1.1",
     "json-loader": "^0.5.4",
     "vscode": "0.11.x",
-    "webpack": "^1.12.12"
+    "webpack": "^1.13.1"
   }
 }

@@ -7,9 +7,10 @@ const getColorContrast = require('./dynamic-contrast');
 
 class ColorHighlight {
 
-  constructor (document, markerType) {
+  constructor (document, config) {
     this.document = document;
-    this.markerType = markerType;
+    this.markerType = config.markerType;
+    this.matchWords = config.matchWords;
 
     this.colors = {};
     this.decorations = [];
@@ -31,7 +32,7 @@ class ColorHighlight {
     }
 
     colorFinder
-      .findAll(this.document.getText())
+      .findAll(this.document.getText(), this.matchWords)
       .then(processColorFinderResults)
       .then(colorRanges => {
         const updateStack = Object.keys(this.colors)

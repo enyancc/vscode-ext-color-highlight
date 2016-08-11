@@ -20,14 +20,14 @@ function activate (ctx) {
 
   const textEditorCommand = vscode.commands.registerTextEditorCommand('extension.colorHighlight', enable);
 
-  vscode.window.onDidChangeActiveTextEditor(editor => enable(editor, config.markerType), null, context.subscriptions);
+  vscode.window.onDidChangeActiveTextEditor(editor => enable(editor), null, context.subscriptions);
   vscode.workspace.onDidCloseTextDocument(disable, null, context.subscriptions);
 
   vscode.workspace.onDidChangeTextDocument(event => {
     const activeTextEditor = vscode.window.activeTextEditor;
 
     if (activeTextEditor && event && event.document === activeTextEditor.document) {
-      enable(activeTextEditor, config.markerType);
+      enable(activeTextEditor);
     }
   }, null, context.subscriptions);
 
@@ -37,12 +37,12 @@ function activate (ctx) {
   context.subscriptions.push(textEditorCommand);
 }
 
-function enable (editor, markerType, edit) {
+function enable (editor, edit) {
   if (!editor) {
     return Promise.resolve(null);
   }
 
-  return getInstanceForDocument(editor.document, markerType, !!edit)
+  return getInstanceForDocument(editor.document, !!edit)
     .then(instance => instance && instance.triggerUpdate());
 }
 
@@ -75,7 +75,7 @@ module.exports = {
   deactivate
 };
 
-function getInstanceForDocument(document, markerType, force) {
+function getInstanceForDocument(document, force) {
   const fileName = context && document && document.fileName;
 
   if (!fileName) {
@@ -87,7 +87,7 @@ function getInstanceForDocument(document, markerType, force) {
   }
 
   if ((filterDoc(document) || force) && (!state[fileName] || state[fileName].disposed))  {
-    state[fileName] = new ColorHighlight(document, markerType);
+    state[fileName] = new ColorHighlight(document, config);
   }
 
   return Promise.resolve(state[fileName]);

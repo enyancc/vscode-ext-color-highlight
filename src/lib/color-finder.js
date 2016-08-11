@@ -14,11 +14,11 @@ module.exports = {
   findAll: findAll
 };
 
-function findAll (text) {
+function findAll (text, matchWords) {
   return Promise.all([
     findAllRegex(colorRgba, text),
     findAllRegex(colorHex, text),
-    findAllRegex(colorWeb, text)
+    matchWords ? findAllRegex(colorWeb, text) : Promise.resolve([])
   ]).then(data => {
     let results = [];
 
