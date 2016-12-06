@@ -7,7 +7,7 @@ const preparedRePart = Object.keys(webColors)
   .join('|');
 
 const colorWeb = new RegExp('\\(' + preparedRePart + '\\)', 'g');
-const colorHex = /(\#([a-f0-9]{6}|[a-f0-9]{3}))/gi;
+const colorHex = /(\#([a-f0-9]{8}|([a-f0-9]{6}|[a-f0-9]{4}|[a-f0-9]{3}))/gi;
 const colorRgba = /(rgba?\([\d]{1,3},\s*[\d]{1,3},\s*[\d]{1,3}(,\s*\d?\.?\d)?\))/gi;
 
 module.exports = {
