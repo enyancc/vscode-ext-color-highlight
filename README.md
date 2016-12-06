@@ -11,6 +11,11 @@ Still confused? Click "Get Started" above.
 
 ## Changelist
 
+### 1.3.0
+  - Feat: Support hex alpha
+  - Fix: Accidental highlighting of strings like "#1234567890"
+  - Fix: Highlights non-color array keys in Drupal PHP code
+
 ### 1.2.1
   - Added new option to disable color words highlight.
 

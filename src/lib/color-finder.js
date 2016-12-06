@@ -7,7 +7,7 @@ const preparedRePart = Object.keys(webColors)
   .join('|');
 
 const colorWeb = new RegExp('\\(' + preparedRePart + '\\)', 'g');
-const colorHex = /(\#([a-f0-9]{6}|[a-f0-9]{3}))/gi;
+const colorHex = /(\#([a-f0-9]{6}([a-f0-9]{2})?|[a-f0-9]{3}([a-f0-9]{1})?))\b/gi;
 const colorRgba = /(rgba?\([\d]{1,3},\s*[\d]{1,3},\s*[\d]{1,3}(,\s*\d?\.?\d)?\))/gi;
 
 module.exports = {
@@ -40,7 +40,17 @@ function findAllRegex (expr, text) {
       let color;
 
       try {
-        color = Color(match[0]).rgbaString();
+        const alphaMatch = 1 - parseInt(match[3] || `${match[4]}${match[4]}`, 16) / 255;
+        const matchLen = match[0].length;
+
+        if (alphaMatch) {
+          match[0] = match[0].substr(0, matchLen + (match[3] ? -2 : -1));
+        }
+
+        const color = Color(match[0])
+          .clearer(isNaN(alphaMatch) ? 0 : alphaMatch)
+          .rgbaString();
+
         result.push({
           start,
           end,
@@ -54,4 +64,5 @@ function findAllRegex (expr, text) {
     resolve(result);
   });
 }
+
 
