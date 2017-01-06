@@ -50,6 +50,11 @@
           "title": "Highlight style, valid types: 'background', 'outline', 'underline'",
           "description": "Style of the highlight. Can be 'background', 'outline', 'underline'",
           "type": "string"
+        },
+        "color-highlight.markRuler": {
+          "default": true,
+          "title": "Highlight colors on the ruler (scroll bar), true/false",
+          "type": "boolean"
         }
       }
     },
