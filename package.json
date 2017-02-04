@@ -36,7 +36,7 @@
           "type": "boolean"
         },
         "color-highlight.languages": {
-          "default": [ "javascript", "scss", "css", "sass", "less", "php", "xml", "html", "json" ],
+          "default": [ "javascript", "typescript", "scss", "css", "sass", "less", "php", "xml", "html", "json" ],
           "title": "Autohighlight files with these languages",
           "type": "array"
         },
