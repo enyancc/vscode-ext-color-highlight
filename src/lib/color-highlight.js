@@ -11,6 +11,7 @@ class ColorHighlight {
     this.document = document;
     this.markerType = config.markerType;
     this.matchWords = config.matchWords;
+    this.markRuler = config.markRuler;
 
     this.colors = {};
     this.decorations = [];
@@ -57,9 +58,12 @@ class ColorHighlight {
   }
 
   getColorDecoration(color) {
-    let rules = {
-      overviewRulerColor: color
-    };
+    let rules = {};
+      if (this.markRuler) {
+        rules = {
+        overviewRulerColor: color
+        };
+      }
 
     switch (this.markerType) {
       case 'background':
