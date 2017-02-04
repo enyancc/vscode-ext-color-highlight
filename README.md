@@ -11,6 +11,13 @@ Still confused? Click "Get Started" above.
 
 ## Changelist
 
+### 1.3.2
+  - Feat: Add stylus
+
+### 1.3.1
+  - Feat: Add typescript language to the list
+  - Feat: Add option to disable the colors in ruler
+
 ### 1.3.0
   - Feat: Support hex alpha
   - Fix: Accidental highlighting of strings like "#1234567890"
