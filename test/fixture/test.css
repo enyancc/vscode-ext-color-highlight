@@ -1,0 +1,9 @@
+.red { color: red; }
+.red { color: #f00; }
+.red { color: #ff0000; }
+.red { color: rgb(255, 0, 0); }
+.red { color: rgb(100%, 0%, 0%); }
+.red { color: rgba(255, 0, 0, 1); }
+.red { color: rgba(100%, 0%, 0%, 1); }
+.red { color: hsl(0, 100%, 50%); }
+.red { color: hsla(0, 100%, 50%, 1); }
