@@ -7,12 +7,7 @@ module.exports = {
   externals: {
     'vscode': 'vscode'
   },
-  module: {
-    loaders: [{
-      test: /json$/,
-      loader: 'json'
-    }]
-  }
+  module: {}
 };
 
 if (process.env.NODE_ENVIRONMENT !== 'production') {
