@@ -7,7 +7,9 @@
         "node": true
     },
     "parserOptions": {
-        "sourceType": "module"
+        "sourceType": "module",
+        "allowImportExportEverywhere": false,
+        "codeFrame": false
     },
     "rules": {
         "no-const-assign": "warn",
