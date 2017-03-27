@@ -1,102 +1,114 @@
-'use strict';
+import vscode from 'vscode';
+import { DocumentHighlight } from './color-highlight';
 
-const vscode = require('vscode');
-const ColorHighlight = require('./lib/color-highlight');
-
-const state = {};
-
+const COMMAND_NAME = 'extension.colorHighlight';
+let instanceMap = null;
 let config;
-let context;
 
-function activate (ctx) {
+// this method is called when your extension is activated
+// your extension is activated the very first time the command is executed
+export function activate(context) {
+  instanceMap = [];
   config = vscode.workspace.getConfiguration('color-highlight');
 
-  if (!config.enable) {
-    config = null;
-    return false;
+  const disposable = vscode.commands
+    .registerTextEditorCommand(COMMAND_NAME, (document) => {
+
+      if (!document) {
+        const { activeTextEditor } = vscode.window;
+        document = activeTextEditor && activeTextEditor.document;
+      }
+
+      return findOrCreateInstance(document)
+    });
+
+  context.subscriptions.push(disposable);
+  vscode.window.onDidChangeVisibleTextEditors(onOpenEditor);
+
+  const { activeTextEditor } = vscode.window;
+
+  if (activeTextEditor) {
+    onOpenEditor([activeTextEditor]);
   }
 
-  context = ctx;
+  /**
+   *
+   * @param {vscode.TextEditor[]} editors
+   */
+  function onOpenEditor(editors) {
 
-  const textEditorCommand = vscode.commands.registerTextEditorCommand('extension.colorHighlight', enable);
-
-  vscode.window.onDidChangeActiveTextEditor(editor => enable(editor), null, context.subscriptions);
-  vscode.workspace.onDidCloseTextDocument(disable, null, context.subscriptions);
-
-  vscode.workspace.onDidChangeTextDocument(event => {
-    const activeTextEditor = vscode.window.activeTextEditor;
-
-    if (activeTextEditor && event && event.document === activeTextEditor.document) {
-      enable(activeTextEditor);
+    // dispose all inactive editors
+    if (!editors.length) {
+      instanceMap.forEach(({ instance }) => instance.dispose());
+      instanceMap = [];
     }
-  }, null, context.subscriptions);
 
 
-  enable(vscode.window.activeTextEditor);
+    // enable highlight in active editors
+    editors.forEach(editor => {
+      const { document } = editor;
 
-  context.subscriptions.push(textEditorCommand);
-}
-
-function enable (editor, edit) {
-  if (!editor) {
-    return Promise.resolve(null);
-  }
-
-  return getInstanceForDocument(editor.document, !!edit)
-    .then(instance => instance && instance.triggerUpdate());
-}
-
-function disable (document) {
-  return getInstanceForDocument(document)
-    .then(instance => {
-      const fileName = instance && instance.document && instance.document.fileName;
-
-      if (fileName) {
-        instance && instance.dispose();
-        state[fileName] = null;
+      if (isValidDocument(config, document)) {
+        vscode.commands.executeCommand(COMMAND_NAME, document)
       }
     });
+  }
 }
 
-function deactivate () {
-  context = null;
-  config = null;
-
-  Object.keys(state).forEach(key => {
-    if (state[key]) {
-      state[key].dispose();
-      state[key] = null;
-    }
-  });
+// this method is called when your extension is deactivated
+export function deactivate() {
+  instanceMap.forEach(({ instance }) => instance.dispose());
+  instanceMap = null;
 }
 
-module.exports = {
-  activate,
-  deactivate
-};
+/**
+ *  Checks if the document is applicable for autoHighlighighting
+ *
+ * @param {{languages: string[]}} config
+ * @param {vscode.TextDocument} document
+ * @returns
+ */
+function isValidDocument(config, { languageId }) {
+  let isValid = false;
 
-function getInstanceForDocument(document, force) {
-  const fileName = context && document && document.fileName;
-
-  if (!fileName) {
-    return Promise.resolve(null);
+  if (!config.enable) {
+    return isValid;
   }
 
-  if (state[fileName] && state[fileName].disposed !== false) {
-    return Promise.resolve(state[fileName]);
+  if (config.languages.indexOf("*") > -1) {
+    isValid = true;
   }
 
-  if ((filterDoc(document) || force) && (!state[fileName] || state[fileName].disposed))  {
-    state[fileName] = new ColorHighlight(document, config);
+  if (config.languages.indexOf(languageId) > -1) {
+    isValid = true;
+  }
+  if (config.languages.indexOf(`!${languageId}`) > -1) {
+    isValid = false;
   }
 
-  return Promise.resolve(state[fileName]);
+  return isValid;
 }
 
-function filterDoc (document) {
-  if (document && config) {
-    return config.languages.indexOf(document.languageId) !== -1;
+/**
+ * Finds relevant instance of the DocumentHighlighter or creates a new one
+ *
+ * @param {vscode.TextDocument} document
+ * @returns {{ instance: DocumentHighlight, document: vscode.TextDocument}}
+ */
+async function findOrCreateInstance(document) {
+  if (!document) {
+    return;
   }
 
-  return false;
+  const found = instanceMap.find(({ document: refDoc }) => refDoc === document);
+
+  if (!found) {
+    const instance = new DocumentHighlight(document, config);
+    instanceMap.push({
+      document,
+      instance
+    })
+  }
+
+  return found || instanceMap[instanceMap.length - 1];
 }
