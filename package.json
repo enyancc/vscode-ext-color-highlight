@@ -41,18 +41,7 @@
         },
         "color-highlight.languages": {
           "default": [
-            "javascript",
-            "typescript",
-            "scss",
-            "css",
-            "sass",
-            "less",
-            "php",
-            "xml",
-            "html",
-            "json",
-            "styl",
-            "stylus"
+            "*"
           ],
           "title": "Autohighlight files with these languages",
           "type": "array"
@@ -66,7 +55,11 @@
           "default": "background",
           "title": "Highlight style, valid types: 'background', 'outline', 'underline'",
           "description": "Style of the highlight. Can be 'background', 'outline', 'underline'",
-          "type": "string"
+          "type": [
+            "background",
+            "outline",
+            "underline"
+          ]
         },
         "color-highlight.markRuler": {
           "default": true,
