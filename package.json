@@ -47,7 +47,7 @@
           "type": "array"
         },
         "color-highlight.matchWords": {
-          "default": true,
+          "default": false,
           "description": "Highlight color words in files (grey, green, etc.)",
           "type": "boolean"
         },
