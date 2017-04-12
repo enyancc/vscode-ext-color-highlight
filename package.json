@@ -2,7 +2,7 @@
   "name": "color-highlight",
   "displayName": "Color Highlight",
   "description": "Highlight web colors in your editor",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "publisher": "naumovs",
   "engines": {
     "vscode": "^1.10.0"
@@ -47,7 +47,7 @@
           "type": "array"
         },
         "color-highlight.matchWords": {
-          "default": true,
+          "default": false,
           "description": "Highlight color words in files (grey, green, etc.)",
           "type": "boolean"
         },

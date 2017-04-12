@@ -1,4 +1,7 @@
 # Change Log
+## [2.0.1] - 2017-04-12
+### Changed
+  - Default value for matchWords to false
 
 ## [2.0.0] - 2017-04-12
 ### Added
@@ -8,7 +11,6 @@
 
 ### Changed
   - Extension enabled on all documents
-  - Default value for matchWords to false
   - Complete rewrite to gain maximum performance
   - Updated to the latest vscode library
 
