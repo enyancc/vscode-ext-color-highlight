@@ -2,7 +2,7 @@
   "name": "color-highlight",
   "displayName": "Color Highlight",
   "description": "Highlight web colors in your editor",
-  "version": "1.3.2",
+  "version": "2.0.0",
   "publisher": "naumovs",
   "engines": {
     "vscode": "^1.10.0"
@@ -32,7 +32,7 @@
   "icon": "images/preview.png",
   "contributes": {
     "configuration": {
-      "title": "Color Highlight extension (reboot after any changes required)",
+      "title": "Color Highlight",
       "properties": {
         "color-highlight.enable": {
           "default": true,
@@ -43,27 +43,22 @@
           "default": [
             "*"
           ],
-          "title": "Autohighlight files with these languages",
+          "description": "Autohighlight files with these languages",
           "type": "array"
         },
         "color-highlight.matchWords": {
           "default": true,
-          "title": "Highlight color words in files (grey, green, etc.)",
+          "description": "Highlight color words in files (grey, green, etc.)",
           "type": "boolean"
         },
         "color-highlight.markerType": {
           "default": "background",
-          "title": "Highlight style, valid types: 'background', 'outline', 'underline'",
-          "description": "Style of the highlight. Can be 'background', 'outline', 'underline'",
-          "type": [
-            "background",
-            "outline",
-            "underline"
-          ]
+          "description": "Style of the highlight. Can be 'dot', 'foreground', 'background', 'outline', 'underline'",
+          "type": "string"
         },
         "color-highlight.markRuler": {
           "default": true,
-          "title": "Highlight colors on the ruler (scroll bar), true/false",
+          "description": "Highlight colors on the ruler (scroll bar), true/false",
           "type": "boolean"
         }
       }

@@ -1,10 +1,15 @@
 # Change Log
-All notable changes to the "color" extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+## [2.0.0] - 2017-04-12
+### Added
+  - Document type filters
+  - Two new styles for color highlight: "dot" and "foreground"
+  - Moved list of changes to the changelog.md file
 
-## [Unreleased]
 ### Changed
+  - Extension enabled on all documents
+  - Default value for matchWords to false
+  - Complete rewrite to gain maximum performance
   - Updated to the latest vscode library
 
 ## [1.3.2] - 0000-00-00

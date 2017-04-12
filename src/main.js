@@ -11,54 +11,31 @@ export function activate(context) {
   instanceMap = [];
   config = vscode.workspace.getConfiguration('color-highlight');
 
-  const disposable = vscode.commands
-    .registerTextEditorCommand(COMMAND_NAME, (document) => {
+  context.subscriptions.push(
 
-      if (!document) {
-        const { activeTextEditor } = vscode.window;
-        document = activeTextEditor && activeTextEditor.document;
-      }
+    // vscode.commands.registerCommand('_' + COMMAND_NAME, doHighlight),
+    vscode.commands.registerTextEditorCommand(COMMAND_NAME, runHighlightEditorCommand)
 
-      return findOrCreateInstance(document)
-    });
+  );
 
-  context.subscriptions.push(disposable);
-  vscode.window.onDidChangeVisibleTextEditors(onOpenEditor);
+  vscode.window.onDidChangeVisibleTextEditors(onOpenEditor, null, context.subscriptions);
+  vscode.workspace
+    .onDidChangeConfiguration(onConfigurationChange, null, context.subscriptions);
 
-  const { activeTextEditor } = vscode.window;
-
-  if (activeTextEditor) {
-    onOpenEditor([activeTextEditor]);
-  }
-
-  /**
-   *
-   * @param {vscode.TextEditor[]} editors
-   */
-  function onOpenEditor(editors) {
-
-    // dispose all inactive editors
-    if (!editors.length) {
-      instanceMap.forEach(({ instance }) => instance.dispose());
-      instanceMap = [];
-    }
-
-
-    // enable highlight in active editors
-    editors.forEach(editor => {
-      const { document } = editor;
-
-      if (isValidDocument(config, document)) {
-        vscode.commands.executeCommand(COMMAND_NAME, document)
-      }
-    });
-  }
+  onOpenEditor(vscode.window.visibleTextEditors);
 }
 
 // this method is called when your extension is deactivated
 export function deactivate() {
-  instanceMap.forEach(({ instance }) => instance.dispose());
+  instanceMap.forEach((instance) => instance.dispose());
   instanceMap = null;
+}
+
+function reactivate() {
+  deactivate();
+
+  instanceMap = [];
+  onOpenEditor(vscode.window.visibleTextEditors);
 }
 
 /**
@@ -93,22 +70,59 @@ function isValidDocument(config, { languageId }) {
  * Finds relevant instance of the DocumentHighlighter or creates a new one
  *
  * @param {vscode.TextDocument} document
- * @returns {{ instance: DocumentHighlight, document: vscode.TextDocument}}
+ * @returns {DocumentHighlight}
  */
 async function findOrCreateInstance(document) {
   if (!document) {
-    return;
+    return
   }
 
   const found = instanceMap.find(({ document: refDoc }) => refDoc === document);
 
   if (!found) {
     const instance = new DocumentHighlight(document, config);
-    instanceMap.push({
-      document,
-      instance
-    })
+    instanceMap.push(instance);
   }
 
   return found || instanceMap[instanceMap.length - 1];
+}
+
+async function runHighlightEditorCommand(editor, edit, document) {
+  if (!document) {
+    document = editor && editor.document;
+  }
+
+  return doHighlight([document]);
+}
+
+async function doHighlight(documents = []) {
+  if (documents.length) {
+    const instances = await Promise.all(documents.map(findOrCreateInstance));
+
+    return instances.map(instance => instance.onUpdate());
+  }
+}
+
+function onConfigurationChange() {
+  config = vscode.workspace.getConfiguration('color-highlight');
+
+  reactivate();
+}
+
+/**
+ *
+ * @param {vscode.TextEditor[]} editors
+ */
+function onOpenEditor(editors) {
+  // dispose all inactive editors
+  const documents = editors.map(({ document }) => document);
+  const forDisposal = instanceMap.filter(({ document }) => documents.indexOf(document) === -1);
+
+  instanceMap = instanceMap.filter(({ document }) => documents.indexOf(document) > -1);
+  forDisposal.forEach(instance => instance.dispose());
+
+  // enable highlight in active editors
+  const validDocuments = documents.filter(doc => isValidDocument(config, doc));
+
+  doHighlight(validDocuments);
 }

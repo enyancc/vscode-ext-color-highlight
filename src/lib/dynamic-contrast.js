@@ -10,7 +10,7 @@
 //                         rgb(255, 255, 255), rgba(255, 255, 255),
 //                         rgba(255, 255, 255, 1)
 // @return      string dark|light
-function getColorContrast(color) {
+export function getColorContrast(color) {
     if(color === undefined || color === "") {
         return null;
     }
@@ -44,5 +44,3 @@ function getColorContrast(color) {
     yiq = ((r*299)+(g*587)+(b*114))/1000;
     return (yiq >= 128) ? 'dark' : 'light';
 }
-
-module.exports = getColorContrast;
