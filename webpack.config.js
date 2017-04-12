@@ -3,6 +3,7 @@ module.exports = {
   output: {
     libraryTarget: 'commonjs2',
     filename: 'dist/extension.js',
+    devtoolModuleFilenameTemplate: '[absolute-resource-path]'
   },
   externals: {
     'vscode': 'vscode'
@@ -31,5 +32,5 @@ module.exports = {
 };
 
 if (process.env.NODE_ENVIRONMENT !== 'production') {
-  module.exports.devtool = 'inline-source-map';
+  module.exports.devtool = 'source-map';
 }

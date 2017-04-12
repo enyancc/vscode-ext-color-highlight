@@ -1,4 +1,5 @@
 // Place your settings in this file to overwrite default and user settings.
 {
-  "color-highlight.enable": true
+  "color-highlight.enable": true,
+  "eslint.enable": true
 }
