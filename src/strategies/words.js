@@ -21,11 +21,10 @@ export async function findWords(text) {
   let result = [];
 
   while (match !== null) {
-    const start = match.index;
-    const end = colorWeb.lastIndex;
-    const matchedColor = match[1];
-
     const firstChar = match[0][0];
+    const matchedColor = match[1];
+    const start = match.index + (match[0].length - matchedColor.length);
+    const end = colorWeb.lastIndex;
 
     if (firstChar.length && /[-\\$@#]/.test(firstChar)) {
       match = colorWeb.exec(text);

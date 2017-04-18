@@ -1,4 +1,8 @@
 # Change Log
+## [2.1.2] - 2017-04-18
+### Fixed
+  - Correct the highlighted offset if context is analyzed
+
 ## [2.1.1] - 2017-04-18
 ### Fixed
   - Partial variable matching in sass, less and stylus

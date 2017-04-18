@@ -16,16 +16,16 @@ export async function findHex(text) {
   let result = [];
 
   while (match !== null) {
-    const start = match.index;
-    const end = colorHex.lastIndex;
+    const firstChar = match[0][0];
     const matchedColor = match[1];
+    const start = match.index + (match[0].length - matchedColor.length);
+    const end = colorHex.lastIndex;
 
-    const contextChar = match[0][0];
 
     // Check the symbol before the color match, and try to avoid coloring in the
     // contexts that are not relevant
     // https://github.com/sergiirocks/vscode-ext-color-highlight/issues/25
-    if (contextChar.length && /\w/.test(contextChar)) {
+    if (firstChar.length && /\w/.test(firstChar)) {
       match = colorHex.exec(text);
       continue;
     }
