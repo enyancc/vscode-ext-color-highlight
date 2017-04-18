@@ -5,7 +5,7 @@ const preparedRePart = Object.keys(webColors)
   .map(color => `\\b${color}\\b`)
   .join('|');
 
-const colorWeb = new RegExp('\\(' + preparedRePart + '\\)', 'g');
+const colorWeb = new RegExp('.?(' + preparedRePart + ')(?!-)', 'g');
 
 /**
  * @export
@@ -23,7 +23,14 @@ export async function findWords(text) {
   while (match !== null) {
     const start = match.index;
     const end = colorWeb.lastIndex;
-    const matchedColor = match[0];
+    const matchedColor = match[1];
+
+    const firstChar = match[0][0];
+
+    if (firstChar.length && /[-\\$@#]/.test(firstChar)) {
+      match = colorWeb.exec(text);
+      continue;
+    }
 
     try {
       const color = Color(matchedColor)

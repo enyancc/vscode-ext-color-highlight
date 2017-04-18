@@ -6,10 +6,16 @@ import {
   TextDocument,
   TextDocumentChangeEvent
 } from 'vscode';
-import { findRgba } from './strategies/rgba';
+import { findScssVars } from './strategies/scss-vars';
+import { findLessVars } from './strategies/less-vars';
+import { findStylVars } from './strategies/styl-vars';
+import { findCssVars } from './strategies/css-vars';
+import { findFn } from './strategies/functions';
 import { findHex } from './strategies/hex';
 import { findWords } from './strategies/words';
 import { DecorationMap } from './lib/decoration-map';
+
+const colorWordsLanguages = ['css', 'scss', 'sass', 'stylus'];
 
 export class DocumentHighlight {
 
@@ -24,10 +30,26 @@ export class DocumentHighlight {
     this.disposed = false;
 
     this.document = document;
-    this.strategies = [findHex, findRgba];
+    this.strategies = [findHex, findFn];
 
-    if (viewConfig.matchWords) {
+    if (colorWordsLanguages.indexOf(colorWordsLanguages) > -1 || viewConfig.matchWords) {
       this.strategies.push(findWords);
+    }
+
+    switch (document.languageId) {
+      case 'css':
+        this.strategies.push(findCssVars);
+        break;
+      case 'less':
+        this.strategies.push(findLessVars);
+        break;
+      case 'stylus':
+        this.strategies.push(findStylVars);
+        break;
+      case 'sass':
+      case 'scss':
+        this.strategies.push(findScssVars);
+        break;
     }
 
     this.initialize(viewConfig);

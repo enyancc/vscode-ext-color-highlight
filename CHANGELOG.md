@@ -1,4 +1,15 @@
 # Change Log
+## [2.1.0] - 2017-04-18
+### Added
+  - hsl() and hsla() support.
+  - Description for the configuration properties
+  - Basic variables support within the file (for css, sass, less, stylus)
+### Fixed
+  - Matches in non-color contexts like link with hashes or other places
+  - White in white-space is colored
+### Changed
+  - Color word matching is always "on" in the style languages (css, scss, sass, stylus)
+
 ## [2.0.1] - 2017-04-12
 ### Changed
   - Default value for matchWords to false

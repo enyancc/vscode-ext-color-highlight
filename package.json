@@ -2,7 +2,7 @@
   "name": "color-highlight",
   "displayName": "Color Highlight",
   "description": "Highlight web colors in your editor",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "publisher": "naumovs",
   "engines": {
     "vscode": "^1.10.0"
@@ -36,19 +36,19 @@
       "properties": {
         "color-highlight.enable": {
           "default": true,
-          "title": "Global enable switch for user/workspace settings",
+          "description": "Controls if plugin is enabled",
           "type": "boolean"
         },
         "color-highlight.languages": {
           "default": [
             "*"
           ],
-          "description": "Autohighlight files with these languages",
+          "description": "An array of language ids which should be higlighted by Color Highlight. \"*\" to trigger on any language; Prepend language id with \"!\" to exclude the language (i.e \"!typescript\", \"!javascript\")",
           "type": "array"
         },
         "color-highlight.matchWords": {
           "default": false,
-          "description": "Highlight color words in files (grey, green, etc.)",
+          "description": "Highlight color words in all files (grey, green, etc.)",
           "type": "boolean"
         },
         "color-highlight.markerType": {
