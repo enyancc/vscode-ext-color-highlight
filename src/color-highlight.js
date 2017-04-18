@@ -15,7 +15,7 @@ import { findHex } from './strategies/hex';
 import { findWords } from './strategies/words';
 import { DecorationMap } from './lib/decoration-map';
 
-const colorWordsLanguages = ['css', 'scss', 'sass', 'stylus'];
+const colorWordsLanguages = ['css', 'scss', 'sass', 'less', 'stylus'];
 
 export class DocumentHighlight {
 
