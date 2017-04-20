@@ -1,4 +1,8 @@
 # Change Log
+## [] - Unreleased
+### Fixed
+  - Underline style: correct text color in comments
+
 ## [2.1.2] - 2017-04-18
 ### Fixed
   - Correct the highlighted offset if context is analyzed

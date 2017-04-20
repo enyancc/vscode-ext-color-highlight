@@ -49,7 +49,7 @@ export class DecorationMap {
           rules.color = color;
           break;
         case 'underline':
-          rules.color = 'inherit; border-bottom:solid 2px ' + color;
+          rules.color = 'invalid; border-bottom:solid 2px ' + color;
           break;
         case 'dot':
           rules.after = {
