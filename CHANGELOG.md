@@ -1,5 +1,7 @@
 # Change Log
 ## [] - Unreleased
+### Added
+  - Google form to collect the user preffered setting defaults
 ### Fixed
   - Underline style: correct text color in comments
 
