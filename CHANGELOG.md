@@ -1,5 +1,5 @@
 # Change Log
-## [] - Unreleased
+## [2.1.3] - 2017-04-20
 ### Added
   - Google form to collect the user preffered setting defaults
 ### Fixed
