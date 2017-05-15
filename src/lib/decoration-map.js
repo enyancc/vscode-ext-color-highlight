@@ -52,7 +52,22 @@ export class DecorationMap {
           rules.color = 'invalid; border-bottom:solid 2px ' + color;
           break;
         case 'dot':
+        case 'dotafter':
+        case 'dot-after':
+        case 'dot_after':
           rules.after = {
+            contentText: ' ',
+            margin: '0.1em 0.2em 0 0.2em',
+            width: '0.7em',
+            height: '0.7em',
+            backgroundColor: color,
+            borderRadius: '50%'
+          };
+          break;
+        case 'dotbefore':
+        case 'dot-before':
+        case 'dot_before':
+          rules.before = {
             contentText: ' ',
             margin: '0.1em 0.2em 0 0.2em',
             width: '0.7em',
