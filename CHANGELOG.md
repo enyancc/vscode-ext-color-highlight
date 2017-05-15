@@ -1,4 +1,8 @@
 # Change Log
+## [2.2.0] - 2017-05-15
+### Added
+  - "dot-before" marker type
+
 ## [2.1.3] - 2017-04-20
 ### Added
   - Google form to collect the user preffered setting defaults
