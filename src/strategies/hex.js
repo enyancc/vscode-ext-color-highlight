@@ -1,6 +1,6 @@
 import Color from 'color';
 
-const colorHex = /.?(\#([a-f0-9]{6}([a-f0-9]{2})?|[a-f0-9]{3}([a-f0-9]{1})?))\b/gi;
+const colorHex = /.?((?:\#|\b0x)([a-f0-9]{6}([a-f0-9]{2})?|[a-f0-9]{3}([a-f0-9]{1})?))\b/gi;
 
 /**
  * @export
@@ -18,6 +18,7 @@ export async function findHex(text) {
   while (match !== null) {
     const firstChar = match[0][0];
     const matchedColor = match[1];
+    const matchedHex = '#' + match[2];
     const start = match.index + (match[0].length - matchedColor.length);
     const end = colorHex.lastIndex;
 
@@ -31,7 +32,7 @@ export async function findHex(text) {
     }
 
     try {
-      const color = Color(matchedColor)
+      const color = Color(matchedHex)
         .rgb()
         .string();
 
