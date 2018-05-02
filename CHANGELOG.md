@@ -1,4 +1,12 @@
 # Change Log
+## [2.3.1] - 2018-04-05
+### Fixed
+  - Use dark text color over light hsl()/hsla() colors, matching the behavior of light rgb and hex colors
+
+## [2.3.0] - 2018-04-05
+### Added
+  - Added support for 0x prefixed colors
+
 ## [2.2.0] - 2017-05-15
 ### Added
   - "dot-before" marker type

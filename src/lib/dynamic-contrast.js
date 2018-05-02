@@ -15,14 +15,19 @@ export function getColorContrast(color) {
         return null;
     }
     var rgbExp = /^rgba?[\s+]?\(\s*(([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5]))\s*,\s*([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\s*,\s*([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\s*,?(?:\s*([\d.]+))?\s*\)?\s*/im,
+        hslExp = /^hsla?\((\d+),\s*([\d.]+\%),\s*([\d.]+\%),?\s*(\d*(?:\.\d+)?)\)$/im,
         hexExp = /^(?:#)|([a-fA-F0-9]{3}|[a-fA-F0-9]{6})$/igm,
         rgb    = color.match(rgbExp),
+        hsl    = color.match(hslExp),
         hex    = color.match(hexExp),
         r,
         g,
         b,
         yiq;
-    if (rgb) {
+    if (hsl) {
+        const l = parseInt(hsl[3], 10);
+        return (l > 50) ? 'dark' : 'light';
+    } else if (rgb) {
         r = parseInt(rgb[1], 10);
         g = parseInt(rgb[2], 10);
         b = parseInt(rgb[3], 10);
