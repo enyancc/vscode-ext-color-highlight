@@ -1,4 +1,9 @@
 # Change Log
+## [2.3.0] - 2017-07-11
+### Added
+  - Highlight variables imported from the files (sass, scss)
+  - Configuration option for the sass imports lookup folders.
+
 ## [2.2.0] - 2017-05-15
 ### Added
   - "dot-before" marker type

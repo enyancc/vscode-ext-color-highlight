@@ -1,6 +1,6 @@
 import { findHex } from './hex';
 import { findWords } from './words';
-import { findFn } from './functions';
+import { findFn, sortStringsDesc } from './functions';
 
 const setVariable = /^\s*(--[-\w]+)\s*:\s*(.*)$/gm;
 
@@ -18,7 +18,7 @@ export async function findCssVars(text) {
   let result = [];
 
   const varColor = {};
-  const varNames = [];
+  let varNames = [];
 
   while (match !== null) {
     const name = match[1];
@@ -40,6 +40,8 @@ export async function findCssVars(text) {
   if (!varNames.length) {
     return [];
   }
+
+  varNames = sortStringsDesc(varNames);
 
   const varNamesRegex = new RegExp(`var\\((${varNames.join('|')})\\)`, 'g')
 

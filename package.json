@@ -2,7 +2,7 @@
   "name": "color-highlight",
   "displayName": "Color Highlight",
   "description": "Highlight web colors in your editor",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "publisher": "naumovs",
   "engines": {
     "vscode": "^1.10.0"
@@ -60,6 +60,11 @@
           "default": true,
           "description": "Highlight colors on the ruler (scroll bar), true/false",
           "type": "boolean"
+        },
+        "color-highlight.sass.includePaths": {
+          "default": [],
+          "description": "Array of absolute paths to search while perform file lookups.",
+          "type": "array"
         }
       }
     },
@@ -85,6 +90,7 @@
   },
   "dependencies": {
     "color": "^1.0.3",
-    "color-name": "^1.1.2"
+    "color-name": "^1.1.2",
+    "file-importer": "^1.0.0"
   }
 }
