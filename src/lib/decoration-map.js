@@ -79,8 +79,9 @@ export class DecorationMap {
         case 'background':
         default:
           rules.backgroundColor = color;
-          rules.color = getColorContrast(color) === 'dark' ? '#111' : '#fff';
+          rules.color = getColorContrast(color);
           rules.border = `3px solid ${color}`;
+          rules.borderRadius = '3px';
       }
       this._map.set(color, vscode.window.createTextEditorDecorationType(rules));
       this._keys.push(color);
