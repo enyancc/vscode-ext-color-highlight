@@ -1,6 +1,7 @@
 import { findHex } from './hex';
 import { findWords } from './words';
 import { findFn, sortStringsDesc } from './functions';
+import { findHwb } from './hwb';
 
 const setVariable = /^\s*\$?([-\w]+)\s*=\s*(.*)$/gm;
 
@@ -26,7 +27,8 @@ export async function findStylVars(text) {
     const values = await Promise.race([
       findHex(value),
       findWords(value),
-      findFn(value)
+      findFn(value),
+      findHwb(value)
     ]);
 
     if (values.length) {

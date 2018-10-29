@@ -1,6 +1,7 @@
 import { findHex } from './hex';
 import { findWords } from './words';
 import { findFn, sortStringsDesc } from './functions';
+import { findHwb } from './hwb';
 import { parseImports } from '../lib/sass-importer'
 
 const setVariable = /^\s*\$([-\w]+)\s*:\s*(.*)$/gm;
@@ -35,7 +36,8 @@ export async function findScssVars(text, importerOptions) {
     const values = await Promise.race([
       findHex(value),
       findWords(value),
-      findFn(value)
+      findFn(value),
+      findHwb(value)
     ]);
 
     if (values.length) {
