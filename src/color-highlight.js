@@ -15,6 +15,7 @@ import { findHex } from './strategies/hex';
 import { findHwb } from './strategies/hwb';
 import { findWords } from './strategies/words';
 import { DecorationMap } from './lib/decoration-map';
+import { dirname } from 'path';
 
 const colorWordsLanguages = ['css', 'scss', 'sass', 'less', 'stylus'];
 
@@ -49,7 +50,12 @@ export class DocumentHighlight {
         break;
       case 'sass':
       case 'scss':
-        this.strategies.push(findScssVars);
+        this.strategies.push(text => findScssVars(text, {
+          data: text,
+          cwd: dirname(document.uri.fsPath),
+          extensions: ['.scss', '.sass'],
+          includePaths: viewConfig.sass.includePaths || []
+        }));
         break;
     }
 

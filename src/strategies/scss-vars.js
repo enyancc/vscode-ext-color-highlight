@@ -1,7 +1,8 @@
 import { findHex } from './hex';
 import { findWords } from './words';
-import { findFn } from './functions';
+import { findFn, sortStringsDesc } from './functions';
 import { findHwb } from './hwb';
+import { parseImports } from '../lib/sass-importer'
 
 const setVariable = /^\s*\$([-\w]+)\s*:\s*(.*)$/gm;
 
@@ -14,12 +15,20 @@ const setVariable = /^\s*\$([-\w]+)\s*:\s*(.*)$/gm;
  *  color: string
  * }}
  */
-export async function findScssVars(text) {
-  let match = setVariable.exec(text);
+export async function findScssVars(text, importerOptions) {
+  let textWithImports = text;
+
+  try {
+    textWithImports = await parseImports(importerOptions);
+  } catch(err) {
+    console.log('Error during imports loading, falling back to local variables parsing');
+  }
+
+  let match = setVariable.exec(textWithImports);
   let result = [];
 
   const varColor = {};
-  const varNames = [];
+  let varNames = [];
 
   while (match !== null) {
     const name = match[1];
@@ -36,12 +45,14 @@ export async function findScssVars(text) {
       varColor[name] = values[0].color;
     }
 
-    match = setVariable.exec(text);
+    match = setVariable.exec(textWithImports);
   }
 
   if (!varNames.length) {
     return [];
   }
+
+  varNames = sortStringsDesc(varNames);
 
   const varNamesRegex = new RegExp(`\\$(${varNames.join('|')})(?!-|\\s*:)`, 'g')
 
