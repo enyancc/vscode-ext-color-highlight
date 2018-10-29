@@ -29,3 +29,15 @@ export async function findFn(text) {
 
   return result;
 }
+
+export function sortStringsDesc(arr) {
+  return arr.sort((a, b) => {
+    if (b < a) {
+      return -1;
+    } else if (b > a) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
+}
