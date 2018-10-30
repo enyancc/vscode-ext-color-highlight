@@ -1,11 +1,11 @@
 {
-  "name": "color-highlight",
-  "displayName": "Color Highlight",
-  "description": "Highlight web colors in your editor",
-  "version": "2.3.0",
-  "publisher": "naumovs",
+  "name": "vscode-ext-color-highlight",
+  "displayName": "vscode-ext-color-highlight",
+  "description": "",
+  "version": "0.0.1",
+  "publisher": "naumov",
   "engines": {
-    "vscode": "^1.10.0"
+    "vscode": "^1.28.0"
   },
   "categories": [
     "Other"
@@ -14,10 +14,11 @@
     "*"
   ],
   "scripts": {
-    "vscode:prepublish": "webpack",
-    "dev": "webpack -w",
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
     "postinstall": "node ./node_modules/vscode/bin/install",
-    "test": "node ./node_modules/vscode/bin/test"
+    "test": "npm run compile && node ./node_modules/vscode/bin/test"
   },
   "license": "MIT",
   "bugs": {
@@ -28,7 +29,7 @@
     "type": "git",
     "url": "https://github.com/naumovs/vscode-ext-color-highlight.git"
   },
-  "main": "./dist/extension",
+  "main": "./out/extension",
   "icon": "images/preview.png",
   "contributes": {
     "configuration": {
@@ -76,17 +77,11 @@
     ]
   },
   "devDependencies": {
-    "@types/mocha": "^2.2.32",
-    "@types/node": "^6.0.40",
-    "babel-core": "^6.23.0",
-    "babel-eslint": "^7.2.1",
-    "babel-loader": "^7.0.0-beta.1",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-latest": "^6.23.0",
-    "eslint": "^3.18.0",
-    "mocha": "^2.3.3",
-    "vscode": "^1.0.0",
-    "webpack": "^2.3.2"
+    "typescript": "^2.6.1",
+    "vscode": "^1.1.21",
+    "tslint": "^5.8.0",
+    "@types/node": "^8.10.25",
+    "@types/mocha": "^2.2.42"
   },
   "dependencies": {
     "color": "^1.0.3",
