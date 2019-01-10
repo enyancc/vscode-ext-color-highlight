@@ -1,4 +1,4 @@
-const colorFunctions = /((rgb|hsl)a?\([\d]{1,3}%?,\s*[\d]{1,3}%?,\s*[\d]{1,3}%?(,\s*\d?\.?\d+)?\))/gi;
+const colorFunctions = /((rgb|hsl)a?\s*\(\s*[\d]{1,3}%?,\s*[\d]{1,3}%?,\s*[\d]{1,3}%?(,\s*\d?\.?\d+)?\s*\))/gi;
 
 /**
  * @export
