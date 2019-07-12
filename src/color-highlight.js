@@ -13,7 +13,7 @@ import { findCssVars } from './strategies/css-vars';
 import { findFn } from './strategies/functions';
 import { findHex } from './strategies/hex';
 import { findHwb } from './strategies/hwb';
-import { findWords } from './strategies/words';
+import { findWords, addCustomWord } from './strategies/words';
 import { DecorationMap } from './lib/decoration-map';
 import { dirname } from 'path';
 
@@ -35,7 +35,11 @@ export class DocumentHighlight {
     this.strategies = [findHex, findFn, findHwb];
 
     if (colorWordsLanguages.indexOf(colorWordsLanguages) > -1 || viewConfig.matchWords) {
-      this.strategies.push(findWords);
+      const customWords = viewConfig.customWords;
+      if (Object.entries(customWords).length !== 0){
+        addCustomWord(customWords);
+      }
+      this.strategies.push(text => findWords(text,customWords));
     }
 
     switch (document.languageId) {
