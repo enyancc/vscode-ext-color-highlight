@@ -33,11 +33,8 @@ let preparedRePart = Object.keys(webColors)
   'GRAY_LV6',
   'GRAY_LV7',]
 
-  customWord.forEach((word,index,array)=>{
-    preparedRePart = preparedRePart+'\\b'+word+'\\b';
-    if (!index === array.length - 1){ 
-      preparedRePart = preparedRePart + '|';
-    }
+  customWord.forEach((word)=>{
+    preparedRePart = preparedRePart+'|\\b'+word+'\\b';
   });
 
 const colorWeb = new RegExp('.?(' + preparedRePart + ')(?!-)', 'g');
