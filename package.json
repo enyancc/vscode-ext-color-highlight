@@ -51,6 +51,11 @@
           "description": "Highlight color words in all files (grey, green, etc.)",
           "type": "boolean"
         },
+        "color-highlight.customWords": {
+          "default": {},
+          "description": "add the color name and code you want",
+          "type": "object"
+        },
         "color-highlight.markerType": {
           "default": "background",
           "description": "Style of the highlight. Can be 'dot-before', 'dot-after', 'foreground', 'background', 'outline', 'underline'",

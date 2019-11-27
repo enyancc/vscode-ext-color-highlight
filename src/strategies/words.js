@@ -1,11 +1,12 @@
 const Color = require('color');
 const webColors = require('color-name');
 
-const preparedRePart = Object.keys(webColors)
+let preparedRePart = Object.keys(webColors)
   .map(color => `\\b${color}\\b`)
   .join('|');
 
-const colorWeb = new RegExp('.?(' + preparedRePart + ')(?!-)', 'g');
+let colorWeb = new RegExp('.?(' + preparedRePart + ')(?!-)', 'g');
+
 
 /**
  * @export
@@ -16,7 +17,7 @@ const colorWeb = new RegExp('.?(' + preparedRePart + ')(?!-)', 'g');
  *  color: string
  * }}
  */
-export async function findWords(text) {
+export async function findWords(text,customWords) {
   let match = colorWeb.exec(text);
   let result = [];
 
@@ -32,19 +33,29 @@ export async function findWords(text) {
     }
 
     try {
-      const color = Color(matchedColor)
+      let color = null;
+      if (customWords.hasOwnProperty(matchedColor)){
+        color = customWords[matchedColor];
+      }else{
+      color = Color(matchedColor)
         .rgb()
         .string();
-
+      }
       result.push({
         start,
         end,
         color
       });
     } catch (e) { }
-
     match = colorWeb.exec(text);
   }
 
   return result;
+}
+
+export function addCustomWord(customWords){
+  Object.keys(customWords).forEach((word)=>{
+    preparedRePart = preparedRePart+'|\\b'+word+'\\b';
+  });
+  colorWeb = new RegExp('.?(' + preparedRePart + ')(?!-)', 'g');
 }
