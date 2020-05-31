@@ -51,6 +51,9 @@ export class DecorationMap {
         case 'underline':
           rules.color = 'invalid; border-bottom:solid 2px ' + color;
           break;
+        case 'underline-dashed':
+          rules.border = 'invalid; height: 84% !important; border-bottom: dashed 1px ' + color;
+          break;
         case 'dot':
         case 'dotafter':
         case 'dot-after':
