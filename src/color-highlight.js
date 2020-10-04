@@ -14,6 +14,7 @@ import { findFn } from './strategies/functions';
 import { findHex } from './strategies/hex';
 import { findHwb } from './strategies/hwb';
 import { findWords } from './strategies/words';
+import { findPico8Color } from './strategies/pico8';
 import { DecorationMap } from './lib/decoration-map';
 import { dirname } from 'path';
 
@@ -56,6 +57,9 @@ export class DocumentHighlight {
           extensions: ['.scss', '.sass'],
           includePaths: viewConfig.sass.includePaths || []
         }));
+        break;
+      case 'pico8':
+        this.strategies = [findPico8Color];
         break;
     }
 
