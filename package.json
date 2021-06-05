@@ -2,7 +2,7 @@
   "name": "color-highlight",
   "displayName": "Color Highlight",
   "description": "Highlight web colors in your editor",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "publisher": "naumovs",
   "engines": {
     "vscode": "^1.10.0"
@@ -50,6 +50,18 @@
           "default": false,
           "description": "Highlight color words in all files (grey, green, etc.)",
           "type": "boolean"
+        },
+        "color-highlight.matchRgbWithNoFunction": {
+          "default": false,
+          "description": "Highlight rgb without functions like rgb() ('255, 255, 255', [255, 255, 255], '255 255 255', etc.)",
+          "type": "boolean"
+        },
+        "color-highlight.rgbWithNoFunctionLanguages": {
+          "default": [
+            "*"
+          ],
+          "description": "An array of language ids which should be higlighted by Color Highlight with the rgbWithNoFunction pattern. \"*\" to trigger on any language; Prepend language id with \"!\" to exclude the language (i.e \"!typescript\", \"!javascript\")",
+          "type": "array"
         },
         "color-highlight.markerType": {
           "default": "background",
