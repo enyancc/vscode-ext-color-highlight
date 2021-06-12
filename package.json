@@ -14,7 +14,8 @@
     "*"
   ],
   "scripts": {
-    "vscode:prepublish": "webpack",
+    "build": "webpack",
+    "vscode:prepublish": "npm run build",
     "dev": "webpack -w",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "test": "node ./node_modules/vscode/bin/test"
