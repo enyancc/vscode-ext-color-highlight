@@ -14,9 +14,9 @@
     "*"
   ],
   "scripts": {
-    "build": "webpack",
-    "vscode:prepublish": "npm run build",
-    "dev": "webpack -w",
+    "build": "webpack --mode development",
+    "vscode:prepublish": "webpack --mode production",
+    "dev": "webpack --mode development -w",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "test": "node ./node_modules/vscode/bin/test"
   },
@@ -97,13 +97,14 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-latest": "^6.23.0",
     "eslint": "^3.18.0",
-    "mocha": "^2.3.3",
+    "mocha": "^9.0.0",
     "vscode": "^1.0.0",
-    "webpack": "^2.3.2"
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.2"
   },
   "dependencies": {
     "color": "^1.0.3",
-    "color-name": "^1.1.2",
+    "color-name": "^1.1.4",
     "file-importer": "^1.0.0"
   }
 }
