@@ -1,4 +1,4 @@
-const fileImporter = require('file-importer');
+import fileImporter from 'file-importer';
 
 export function parseImports(options) {
   return new Promise((resolve, reject) => {

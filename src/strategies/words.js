@@ -1,5 +1,5 @@
-const Color = require('color');
-const webColors = require('color-name');
+import Color from 'color';
+import webColors from 'color-name';
 
 const preparedRePart = Object.keys(webColors)
   .map(color => `\\b${color}\\b`)
