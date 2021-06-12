@@ -2,7 +2,7 @@ import { findHex } from './hex';
 import { findWords } from './words';
 import { findFn, sortStringsDesc } from './functions';
 import { findHwb } from './hwb';
-import { parseImports } from '../lib/sass-importer'
+import { parseImports } from '../lib/sass-importer';
 
 const setVariable = /^\s*\$([-\w]+)\s*:\s*(.*)$/gm;
 
@@ -54,7 +54,7 @@ export async function findScssVars(text, importerOptions) {
 
   varNames = sortStringsDesc(varNames);
 
-  const varNamesRegex = new RegExp(`\\$(${varNames.join('|')})(?!-|\\s*:)`, 'g')
+  const varNamesRegex = new RegExp(`\\$(${varNames.join('|')})(?!-|\\s*:)`, 'g');
 
   match = varNamesRegex.exec(text);
 

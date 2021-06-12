@@ -9,5 +9,5 @@ export function parseImports(options) {
 
       return resolve(data);
     });
-  })
+  });
 }
