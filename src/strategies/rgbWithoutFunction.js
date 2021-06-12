@@ -1,6 +1,7 @@
 import Color from 'color';
 
-const colorRgb = /(\d{1,3})((?:,\s?)|\s)(\d{1,3})\2(\d{1,3})/g;
+// Using [^\S\n] to avoid matching colors between lines
+const colorRgb = /(\d{1,3})[^\S\n]*(?<commaOrSpace>[^\S\n]|,)[^\S\n]*(\d{1,3})[^\S\n]*\k<commaOrSpace>[^\S\n]*(\d{1,3})/g;
 
 /**
  * @export
@@ -33,7 +34,7 @@ export async function findRgbNoFn(text) {
         color
       });
     } catch (e) {
-      console.error(e)
+      console.error(e);
     }
 
     match = colorRgb.exec(text);
