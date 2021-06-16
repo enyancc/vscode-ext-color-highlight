@@ -4,6 +4,7 @@
   "description": "Highlight web colors in your editor",
   "version": "2.3.1",
   "publisher": "naumovs",
+  "license": "GPL-3.0",
   "engines": {
     "vscode": "^1.10.0"
   },
@@ -20,7 +21,6 @@
     "postinstall": "node ./node_modules/vscode/bin/install",
     "test": "node ./node_modules/vscode/bin/test"
   },
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/naumovs/vscode-ext-color-highlight/issues"
   },
