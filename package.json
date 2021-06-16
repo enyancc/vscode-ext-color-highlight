@@ -67,7 +67,15 @@
         "color-highlight.markerType": {
           "default": "background",
           "description": "Style of the highlight. Can be 'dot-before', 'dot-after', 'foreground', 'background', 'outline', 'underline'",
-          "type": "string"
+          "type": "string",
+          "enum": [
+            "dot-before",
+            "dot-after",
+            "foreground",
+            "background",
+            "outline",
+            "underline"
+          ]
         },
         "color-highlight.markRuler": {
           "default": true,
