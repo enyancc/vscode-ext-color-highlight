@@ -52,7 +52,7 @@ function isValidDocument(config, { languageId }) {
     return isValid;
   }
 
-  if (config.languages.indexOf("*") > -1) {
+  if (config.languages.indexOf('*') > -1) {
     isValid = true;
   }
 
@@ -74,7 +74,7 @@ function isValidDocument(config, { languageId }) {
  */
 async function findOrCreateInstance(document) {
   if (!document) {
-    return
+    return;
   }
 
   const found = instanceMap.find(({ document: refDoc }) => refDoc === document);

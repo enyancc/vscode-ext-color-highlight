@@ -3,14 +3,13 @@ import {
   workspace,
   window,
   Range,
-  TextDocument,
-  TextDocumentChangeEvent
 } from 'vscode';
 import { findScssVars } from './strategies/scss-vars';
 import { findLessVars } from './strategies/less-vars';
 import { findStylVars } from './strategies/styl-vars';
 import { findCssVars } from './strategies/css-vars';
 import { findFn } from './strategies/functions';
+import { findRgbNoFn } from './strategies/rgbWithoutFunction';
 import { findHex } from './strategies/hex';
 import { findHwb } from './strategies/hwb';
 import { findWords } from './strategies/words';
@@ -34,8 +33,12 @@ export class DocumentHighlight {
     this.document = document;
     this.strategies = [findHex, findFn, findHwb];
 
-    if (colorWordsLanguages.indexOf(colorWordsLanguages) > -1 || viewConfig.matchWords) {
+    if (colorWordsLanguages.indexOf(document.languageId) > -1 || viewConfig.matchWords) {
       this.strategies.push(findWords);
+    }
+
+    if (viewConfig.rgbWithNoFunctionLanguages.indexOf(document.languageId) > -1 || viewConfig.matchRgbWithNoFunction) {
+      this.strategies.push(findRgbNoFn);
     }
 
     switch (document.languageId) {
@@ -81,7 +84,7 @@ export class DocumentHighlight {
     const text = this.document.getText();
     const version = this.document.version.toString();
 
-    return this.updateRange(text, version)
+    return this.updateRange(text, version);
   }
 
   /**
@@ -90,47 +93,46 @@ export class DocumentHighlight {
    *
    * @memberOf DocumentHighlight
    */
-  updateRange(text, version) {
+  async updateRange(text, version) {
+    try {
+      const result = await Promise.all(this.strategies.map(fn => fn(text)));
 
-    return Promise.all(this.strategies.map(fn => fn(text)))
-      .then(result => {
-        const actualVersion = this.document.version.toString();
-        if (actualVersion !== version) {
-          throw new Error('Document version already has changed');
-        }
+      const actualVersion = this.document.version.toString();
+      if (actualVersion !== version) {
+        throw new Error('Document version already has changed');
+      }
 
-        return result;
-      })
-      .then(concatAll)
-      .then(groupByColor)
-      .then(colorRanges => {
-        if (this.disposed) {
-          return false;
-        }
+      const colorRanges = groupByColor(concatAll(result));
 
-        const updateStack = this.decorations.keys()
-          .reduce((state, color) => {
-            state[color] = [];
-            return state;
-          }, {});
+      if (this.disposed) {
+        return false;
+      }
 
-        for (const color in colorRanges) {
-          updateStack[color] = colorRanges[color].map(item => {
-            return new Range(
-              this.document.positionAt(item.start),
-              this.document.positionAt(item.end)
-            );
-          });
-        }
+      const updateStack = this.decorations.keys()
+        .reduce((state, color) => {
+          state[color] = [];
+          return state;
+        }, {});
 
-        for (const color in updateStack) {
-          const decoration = this.decorations.get(color);
+      for (const color in colorRanges) {
+        updateStack[color] = colorRanges[color].map(item => {
+          return new Range(
+            this.document.positionAt(item.start),
+            this.document.positionAt(item.end)
+          );
+        });
+      }
 
-          window.visibleTextEditors
-            .filter(({ document }) => document.uri === this.document.uri)
-            .forEach(editor => editor.setDecorations(decoration, updateStack[color]));
-        }
-      }).catch(error => console.log(error));
+      for (const color in updateStack) {
+        const decoration = this.decorations.get(color);
+
+        window.visibleTextEditors
+          .filter(({ document }) => document.uri === this.document.uri)
+          .forEach(editor => editor.setDecorations(decoration, updateStack[color]));
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   dispose() {
@@ -142,7 +144,6 @@ export class DocumentHighlight {
     this.document = null;
     this.colors = null;
     this.listner = null;
-
   }
 }
 
@@ -160,5 +161,5 @@ function groupByColor(results) {
 }
 
 function concatAll(arr) {
-  return arr.reduce((result, item) => result.concat(item), [])
+  return arr.reduce((result, item) => result.concat(item), []);
 }

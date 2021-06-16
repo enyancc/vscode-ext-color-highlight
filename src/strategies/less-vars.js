@@ -45,7 +45,7 @@ export async function findLessVars(text) {
 
   varNames = sortStringsDesc(varNames);
 
-  const varNamesRegex = new RegExp(`\\@(${varNames.join('|')})(?!-|\\s*:)`, 'g')
+  const varNamesRegex = new RegExp(`\\@(${varNames.join('|')})(?!-|\\s*:)`, 'g');
 
   match = varNamesRegex.exec(text);
 

@@ -2,8 +2,9 @@
   "name": "color-highlight",
   "displayName": "Color Highlight",
   "description": "Highlight web colors in your editor",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "publisher": "naumovs",
+  "license": "GPL-3.0",
   "engines": {
     "vscode": "^1.10.0"
   },
@@ -14,12 +15,12 @@
     "*"
   ],
   "scripts": {
-    "vscode:prepublish": "webpack",
-    "dev": "webpack -w",
+    "build": "webpack --mode development",
+    "vscode:prepublish": "webpack --mode production",
+    "dev": "webpack --mode development -w",
     "postinstall": "node ./node_modules/vscode/bin/install",
     "test": "node ./node_modules/vscode/bin/test"
   },
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/naumovs/vscode-ext-color-highlight/issues"
   },
@@ -50,6 +51,18 @@
           "default": false,
           "description": "Highlight color words in all files (grey, green, etc.)",
           "type": "boolean"
+        },
+        "color-highlight.matchRgbWithNoFunction": {
+          "default": false,
+          "description": "Highlight rgb without functions like rgb() ('255, 255, 255', [255, 255, 255], '255 255 255', etc.)",
+          "type": "boolean"
+        },
+        "color-highlight.rgbWithNoFunctionLanguages": {
+          "default": [
+            "*"
+          ],
+          "description": "An array of language ids which should be higlighted by Color Highlight with the rgbWithNoFunction pattern. \"*\" to trigger on any language; Prepend language id with \"!\" to exclude the language (i.e \"!typescript\", \"!javascript\")",
+          "type": "array"
         },
         "color-highlight.markerType": {
           "default": "background",
@@ -84,13 +97,14 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-latest": "^6.23.0",
     "eslint": "^3.18.0",
-    "mocha": "^2.3.3",
+    "mocha": "^9.0.0",
     "vscode": "^1.0.0",
-    "webpack": "^2.3.2"
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.2"
   },
   "dependencies": {
     "color": "^1.0.3",
-    "color-name": "^1.1.2",
+    "color-name": "^1.1.4",
     "file-importer": "^1.0.0"
   }
 }
