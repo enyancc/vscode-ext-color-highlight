@@ -99,15 +99,14 @@
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",
+    "@babel/eslint-parser": "^7.14.7",
+    "@babel/plugin-transform-runtime": "^7.14.5",
+    "@babel/preset-env": "^7.14.7",
     "@types/mocha": "^2.2.32",
     "@types/node": "^6.0.40",
     "@types/vscode": "^1.57.0",
-    "babel-core": "^6.23.0",
-    "babel-eslint": "^7.2.1",
     "babel-loader": "^8.2.2",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-latest": "^6.23.0",
-    "eslint": "^3.18.0",
+    "eslint": "^7.29.0",
     "mocha": "^9.0.0",
     "npm-force-resolutions": "0.0.10",
     "vscode": "^1.0.0",
@@ -115,6 +114,7 @@
     "webpack-cli": "^4.7.2"
   },
   "dependencies": {
+    "@babel/runtime": "^7.14.6",
     "color": "^1.0.3",
     "color-name": "^1.1.4",
     "file-importer": "^1.0.0"
