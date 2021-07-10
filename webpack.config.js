@@ -3,7 +3,7 @@ module.exports = {
   target: 'node',
   output: {
     libraryTarget: 'commonjs2',
-    filename: 'dist/extension.js',
+    filename: 'extension.js',
     devtoolModuleFilenameTemplate: '[absolute-resource-path]'
   },
   externals: {
