@@ -5,6 +5,7 @@
 
 ### Added
 
+- Workspace Trust support (Supported completely in untrusted workspaces)
 - Support for whitespace format
 - Support for RGB format without rgb() and configuration options for it (Disabled by default)
 - License
