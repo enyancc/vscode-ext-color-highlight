@@ -13,6 +13,10 @@
 
 - Configuration option for marker type is now a list of options
 
+### Fixed
+
+- Fixed contrast ratio computation to follow WCAG 2.0 guidelines
+
 ## [2.3.0] - 2017-07-11
 
 ### Added
