@@ -37,8 +37,22 @@ export class DocumentHighlight {
       this.strategies.push(findWords);
     }
 
-    if (viewConfig.rgbWithNoFunctionLanguages.indexOf(document.languageId) > -1 || viewConfig.matchRgbWithNoFunction) {
-      this.strategies.push(findRgbNoFn);
+    if (viewConfig.matchRgbWithNoFunction) {
+      let isValid = false;
+
+      if (viewConfig.rgbWithNoFunctionLanguages.indexOf('*') > -1) {
+        isValid = true;
+      }
+
+      if (viewConfig.rgbWithNoFunctionLanguages.indexOf(document.languageId) > -1) {
+        isValid = true;
+      }
+
+      if (viewConfig.rgbWithNoFunctionLanguages.indexOf(`!${document.languageId}`) > -1) {
+        isValid = false;
+      }
+
+      if (isValid) this.strategies.push(findRgbNoFn);
     }
 
     switch (document.languageId) {
