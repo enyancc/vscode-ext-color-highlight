@@ -113,7 +113,9 @@ export class DocumentHighlight {
 
       const actualVersion = this.document.version.toString();
       if (actualVersion !== version) {
-        throw new Error('Document version already has changed');
+        if (process.env.COLOR_HIGHLIGHT_DEBUG) throw new Error('Document version already has changed');
+
+        return;
       }
 
       const colorRanges = groupByColor(concatAll(result));

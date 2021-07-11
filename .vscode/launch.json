@@ -10,7 +10,10 @@
       "sourceMaps": true,
       "args": ["--extensionDevelopmentPath=${workspaceRoot}"],
       "stopOnEntry": false,
-      "preLaunchTask": "npm: build"
+      "preLaunchTask": "npm: build",
+      "env": {
+        "COLOR_HIGHLIGHT_DEBUG": "true"
+      }
     },
 
     {
