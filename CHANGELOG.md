@@ -3,6 +3,8 @@
 
 ## [Unreleased]
 
+## [2.4.0] - 2021-07-15
+
 ### Added
 
 - Workspace Trust support (Supported completely in untrusted workspaces)
