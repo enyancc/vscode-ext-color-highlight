@@ -2,7 +2,7 @@
   "name": "color-highlight",
   "displayName": "Color Highlight",
   "description": "Highlight web colors in your editor",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "publisher": "naumovs",
   "license": "GPL-3.0",
   "engines": {
