@@ -35,6 +35,7 @@
     "type": "git",
     "url": "https://github.com/naumovs/vscode-ext-color-highlight.git"
   },
+  "browser": "./dist/extension.js",
   "main": "./dist/extension",
   "icon": "images/preview.png",
   "contributes": {
