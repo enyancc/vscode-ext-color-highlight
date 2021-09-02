@@ -50,7 +50,7 @@
           "default": [
             "*"
           ],
-          "description": "An array of language ids which should be higlighted by Color Highlight. \"*\" to trigger on any language; Prepend language id with \"!\" to exclude the language (i.e \"!typescript\", \"!javascript\")",
+          "description": "An array of language ids which should be highlighted by Color Highlight. \"*\" to trigger on any language; Prepend language id with \"!\" to exclude the language (i.e \"!typescript\", \"!javascript\")",
           "type": "array"
         },
         "color-highlight.matchWords": {
@@ -67,7 +67,7 @@
           "default": [
             "*"
           ],
-          "description": "An array of language ids which should be higlighted by Color Highlight with the rgbWithNoFunction pattern. \"*\" to trigger on any language; Prepend language id with \"!\" to exclude the language (i.e \"!typescript\", \"!javascript\")",
+          "description": "An array of language ids which should be highlighted by Color Highlight with the rgbWithNoFunction pattern. \"*\" to trigger on any language; Prepend language id with \"!\" to exclude the language (i.e \"!typescript\", \"!javascript\")",
           "type": "array"
         },
         "color-highlight.markerType": {
