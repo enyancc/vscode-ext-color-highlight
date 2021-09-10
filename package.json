@@ -35,7 +35,8 @@
     "type": "git",
     "url": "https://github.com/naumovs/vscode-ext-color-highlight.git"
   },
-  "main": "./dist/extension",
+  "browser": "./dist/extension-web.js",
+  "main": "./dist/extension-node.js",
   "icon": "images/preview.png",
   "contributes": {
     "configuration": {
@@ -114,6 +115,7 @@
     "eslint": "^7.29.0",
     "mocha": "^9.0.0",
     "npm-force-resolutions": "0.0.10",
+    "path-browserify": "^1.0.1",
     "vscode": "^1.0.0",
     "webpack": "^5.39.0",
     "webpack-cli": "^4.7.2"
