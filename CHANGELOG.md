@@ -2,6 +2,11 @@
 # Change Log
 
 ## [Unreleased]
+## [2.5.0] - 2021-09-13
+
+### Added
+
+- Build for the web
 
 ## [2.4.0] - 2021-07-15
 
