@@ -1,11 +1,5 @@
-module.exports = {
+const baseConfig = {
   entry: './src/main.js',
-  target: 'node',
-  output: {
-    libraryTarget: 'commonjs2',
-    filename: 'extension.js',
-    devtoolModuleFilenameTemplate: '[absolute-resource-path]'
-  },
   externals: {
     'vscode': 'vscode'
   },
@@ -25,6 +19,34 @@ module.exports = {
     ]
   }
 };
+
+const nodeConfig = {
+  ...baseConfig,
+  target: 'node',
+  output: {
+    libraryTarget: 'commonjs2',
+    filename: 'extension-node.js',
+    devtoolModuleFilenameTemplate: '[absolute-resource-path]'
+  }
+};
+
+const webConfig = {
+  ...baseConfig,
+  target: 'webworker',
+  output: {
+    libraryTarget: 'commonjs2',
+    filename: 'extension-web.js',
+    devtoolModuleFilenameTemplate: '[absolute-resource-path]'
+  },
+  resolve: {
+    fallback: {
+      'path': require.resolve('path-browserify'),
+      'fs': false 
+    }
+  }
+};
+
+module.exports = [nodeConfig, webConfig];
 
 if (process.env.NODE_ENVIRONMENT !== 'production') {
   module.exports.devtool = 'source-map';
