@@ -18,7 +18,6 @@ export async function findHex(text) {
   while (match !== null) {
     const firstChar = match[0][0];
     const matchedColor = match[1];
-    const matchedHex = '#' + match[2];
     const start = match.index + (match[0].length - matchedColor.length);
     const end = colorHex.lastIndex;
 
@@ -32,7 +31,13 @@ export async function findHex(text) {
     }
 
     try {
-      const color = Color(matchedHex)
+      let alphaInt = 1;
+      let matchedHex = '#' + match[2];
+      if (match[2].length == 8) {
+        alphaInt = Math.round(parseInt(match[2].substring(0, 2), 16) * 100 / 255) / 100; // Get first 2 characters, convert to decimal
+        matchedHex = '#' + match[2].substring(2);
+      }
+      const color = Color(matchedHex).alpha(alphaInt)
         .rgb()
         .string();
 
