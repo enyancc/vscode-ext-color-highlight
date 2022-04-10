@@ -5,6 +5,7 @@
 .red { color: rgb(100%, 0%, 0%); }
 .red { color: rgba(255, 0, 0, 1); }
 .red { color: rgba(100%, 0%, 0%, 1); }
+.red { color: rgba(255 0 0 / 100%); }
 .red { color: hsl(0, 100%, 50%); }
 .red { color: hsla(0, 100%, 50%, 1); }
 .red { color: hwb(360, 0%, 0%); }
