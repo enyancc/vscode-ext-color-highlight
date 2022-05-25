@@ -59,6 +59,11 @@
           "description": "Highlight color words in all files (grey, green, etc.)",
           "type": "boolean"
         },
+        "color-highlight.useARGB": {
+          "default": false,
+          "description": "Highlight HEX values using ARGB instead of RGBA (default)",
+          "type": "boolean"
+        },
         "color-highlight.matchRgbWithNoFunction": {
           "default": false,
           "description": "Highlight rgb without functions like rgb() ('255, 255, 255', [255, 255, 255], '255 255 255', etc.)",
