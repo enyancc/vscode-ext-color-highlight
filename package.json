@@ -20,7 +20,7 @@
     }
   },
   "scripts": {
-    "build": "webpack --mode development",
+    "build": "NODE_OPTIONS='--openssl-legacy-provider' webpack --mode development",
     "vscode:prepublish": "webpack --mode production",
     "dev": "webpack --mode development -w",
     "postinstall": "node ./node_modules/vscode/bin/install",
