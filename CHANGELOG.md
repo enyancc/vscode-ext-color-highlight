@@ -2,6 +2,12 @@
 # Change Log
 
 ## [Unreleased]
+
+### Added
+
+- Support for css color module level 4
+- "useARGB" option to toggle between RGBA and ARGB hex formats
+
 ## [2.5.0] - 2021-09-13
 
 ### Added
