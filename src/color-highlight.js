@@ -10,7 +10,7 @@ import { findStylVars } from './strategies/styl-vars';
 import { findCssVars } from './strategies/css-vars';
 import { findFn } from './strategies/functions';
 import { findRgbNoFn } from './strategies/rgbWithoutFunction';
-import { findHex } from './strategies/hex';
+import { findHexARGB, findHexRGBA } from './strategies/hex';
 import { findHwb } from './strategies/hwb';
 import { findWords } from './strategies/words';
 import { DecorationMap } from './lib/decoration-map';
@@ -31,7 +31,13 @@ export class DocumentHighlight {
     this.disposed = false;
 
     this.document = document;
-    this.strategies = [findHex, findFn, findHwb];
+    this.strategies = [findFn, findHwb];
+
+    if (viewConfig.useARGB == true) {
+      this.strategies.push(findHexARGB);
+    } else {
+      this.strategies.push(findHexRGBA);
+    }
 
     if (colorWordsLanguages.indexOf(document.languageId) > -1 || viewConfig.matchWords) {
       this.strategies.push(findWords);
