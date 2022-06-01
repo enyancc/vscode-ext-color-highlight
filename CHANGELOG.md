@@ -3,6 +3,8 @@
 
 ## [Unreleased]
 
+## [2.6.0]
+
 ### Added
 
 - Support for css color module level 4
