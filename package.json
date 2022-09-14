@@ -2,7 +2,7 @@
   "name": "color-highlight",
   "displayName": "Color Highlight",
   "description": "Highlight web colors in your editor",
-  "version": "2.6.0",
+  "version": "2.7.0",
   "publisher": "naumovs",
   "license": "GPL-3.0",
   "engines": {
@@ -62,6 +62,16 @@
         "color-highlight.useARGB": {
           "default": false,
           "description": "Highlight HEX values using ARGB instead of RGBA (default)",
+          "type": "boolean"
+        },
+        "color-highlight.matchHEX3": {
+          "default": true,
+          "description": "Highlight HEX 3-byte/nibble values",
+          "type": "boolean"
+        },
+        "color-highlight.matchHEX4": {
+          "default": false,
+          "description": "Highlight HEX 4-byte/nibble values",
           "type": "boolean"
         },
         "color-highlight.matchRgbWithNoFunction": {

@@ -3,6 +3,12 @@ import Color from 'color';
 const colorHex =
   /.?((?:\#|\b0x)([a-f0-9]{6}([a-f0-9]{2})?|[a-f0-9]{3}([a-f0-9]{1})?))\b/gi;
 
+const colorHex3 =
+  /.?((?:\#|\b0x)([a-f0-9]{6}|[a-f0-9]{3}))\b/gi;
+
+const colorHex4 =
+  /.?((?:\#|\b0x)([a-f0-9]{8}|[a-f0-9]{4}))\b/gi;
+
 /**
  * @export
  * @param {string} text
@@ -12,22 +18,36 @@ const colorHex =
  *  color: string
  * }}
  */
-function findHex(text, useARGB) {
-  let match = colorHex.exec(text);
+function findHex(text, useARGB, matchHEX3, matchHEX4) {
+  if (matchHEX3 == false && matchHEX4 == false) {
+    return [];
+  }
+
+  let reHex;
+  if (matchHEX3 == true && matchHEX4 == true) {
+    reHex = colorHex;
+  }
+  if (matchHEX3 == true) {
+    reHex = colorHex3;
+  }
+  else {
+    reHex = colorHex4;
+  }
+  let match = reHex.exec(text);
   let result = [];
 
   while (match !== null) {
     const firstChar = match[0][0];
     const matchedColor = match[1];
     const start = match.index + (match[0].length - matchedColor.length);
-    const end = colorHex.lastIndex;
+    const end = reHex.lastIndex;
     let matchedHex = '#' + match[2];
 
     // Check the symbol before the color match, and try to avoid coloring in the
     // contexts that are not relevant
     // https://github.com/sergiirocks/vscode-ext-color-highlight/issues/25
     if (firstChar.length && /\w/.test(firstChar)) {
-      match = colorHex.exec(text);
+      match = reHex.exec(text);
       continue;
     }
 
@@ -54,7 +74,7 @@ function findHex(text, useARGB) {
       });
     } catch (e) {}
 
-    match = colorHex.exec(text);
+    match = reHex.exec(text);
   }
 
   return result;
@@ -69,8 +89,8 @@ function findHex(text, useARGB) {
  *  color: string
  * }}
  */
-export async function findHexARGB(text) {
-  return findHex(text, true);
+export async function findHexARGB(text, matchHEX3 = true, matchHEX4 = true) {
+  return findHex(text, true, matchHEX3, matchHEX4);
 }
 
 /**
@@ -82,6 +102,6 @@ export async function findHexARGB(text) {
  *  color: string
  * }}
  */
-export async function findHexRGBA(text) {
-  return findHex(text, false);
+export async function findHexRGBA(text, matchHEX3 = true, matchHEX4 = true) {
+  return findHex(text, false, matchHEX3, matchHEX4);
 }

@@ -3,6 +3,12 @@
 
 ## [Unreleased]
 
+## [2.7.0]
+
+### Added
+
+- "matchHEX3" option to Highlight HEX 3-byte/nibble values
+- "matchHEX4" option to Highlight HEX 4-byte/nibble values (Disabled by default)
 ## [2.6.0]
 
 ### Added

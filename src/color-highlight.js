@@ -34,9 +34,9 @@ export class DocumentHighlight {
     this.strategies = [findFn, findHwb];
 
     if (viewConfig.useARGB == true) {
-      this.strategies.push(findHexARGB);
+      this.strategies.push((text) => findHexARGB(text, viewConfig.matchHEX3, viewConfig.matchHEX4));
     } else {
-      this.strategies.push(findHexRGBA);
+      this.strategies.push((text) => findHexRGBA(text, viewConfig.matchHEX3, viewConfig.matchHEX4));
     }
 
     if (colorWordsLanguages.indexOf(document.languageId) > -1 || viewConfig.matchWords) {
