@@ -116,7 +116,7 @@
     "@types/mocha": "^2.2.32",
     "@types/node": "^6.0.40",
     "@types/vscode": "^1.57.0",
-    "babel-loader": "^8.2.2",
+    "babel-loader": "^8.3.0",
     "eslint": "^7.29.0",
     "mocha": "^9.0.0",
     "npm-force-resolutions": "0.0.10",
