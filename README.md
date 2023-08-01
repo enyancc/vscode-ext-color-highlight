@@ -16,5 +16,6 @@ Please answer the questions in this questionnaire. Your feedback is very valuabl
 ## Contributors
 
 - [lochstar](https://github.com/lochstar) - Styling modes for the marker
+- [starknt](https://github.com/starknt/vscode-ext-ansi-color-highlight) - Ansi colors handling
 
 Feel free to contribute!

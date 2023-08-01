@@ -2,8 +2,8 @@
   "name": "color-highlight",
   "displayName": "Color Highlight",
   "description": "Highlight web colors in your editor",
-  "version": "2.6.0",
-  "publisher": "naumovs",
+  "version": "2.6.1",
+  "publisher": "V1codin",
   "license": "GPL-3.0",
   "engines": {
     "vscode": "^1.57.0"
@@ -28,12 +28,12 @@
     "test": "node ./node_modules/vscode/bin/test"
   },
   "bugs": {
-    "url": "https://github.com/naumovs/vscode-ext-color-highlight/issues"
+    "url": "https://github.com/V1codin/vscode-ext-color-highlight/issues"
   },
-  "homepage": "https://github.com/naumovs/vscode-ext-color-highlight",
+  "homepage": "https://github.com/V1codin/vscode-ext-color-highlight",
   "repository": {
     "type": "git",
-    "url": "https://github.com/naumovs/vscode-ext-color-highlight.git"
+    "url": "https://github.com/V1codin/vscode-ext-color-highlight.git"
   },
   "browser": "./dist/extension-web.js",
   "main": "./dist/extension-node.js",

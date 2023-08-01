@@ -1,7 +1,14 @@
 <!-- markdownlint-disable MD024 -->
+
 # Change Log
 
 ## [Unreleased]
+
+## [2.6.1]
+
+### Added
+
+- Support for ansi4
 
 ## [2.6.0]
 
