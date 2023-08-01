@@ -1,25 +1,22 @@
-'use strict';
-import {
-  workspace,
-  window,
-  Range,
-} from 'vscode';
-import { findScssVars } from './strategies/scss-vars';
-import { findLessVars } from './strategies/less-vars';
-import { findStylVars } from './strategies/styl-vars';
-import { findCssVars } from './strategies/css-vars';
-import { findFn } from './strategies/functions';
-import { findRgbNoFn } from './strategies/rgbWithoutFunction';
-import { findHexARGB, findHexRGBA } from './strategies/hex';
-import { findHwb } from './strategies/hwb';
-import { findWords } from './strategies/words';
-import { DecorationMap } from './lib/decoration-map';
-import { dirname } from 'path';
+"use strict";
+import { workspace, window, Range } from "vscode";
+import { findScssVars } from "./strategies/scss-vars";
+import { findLessVars } from "./strategies/less-vars";
+import { findStylVars } from "./strategies/styl-vars";
+import { findCssVars } from "./strategies/css-vars";
+import { findFn } from "./strategies/functions";
+import { findRgbNoFn } from "./strategies/rgbWithoutFunction";
+import { findHexARGB, findHexRGBA } from "./strategies/hex";
+import { findHwb } from "./strategies/hwb";
+import { findWords } from "./strategies/words";
+import { DecorationMap } from "./lib/decoration-map";
+import { dirname } from "path";
 
-const colorWordsLanguages = ['css', 'scss', 'sass', 'less', 'stylus'];
+import { findAnsi4Color } from "./strategies/ansi";
+
+const colorWordsLanguages = ["css", "scss", "sass", "less", "stylus"];
 
 export class DocumentHighlight {
-
   /**
    * Creates an instance of DocumentHighlight.
    * @param {TextDocument} document
@@ -39,22 +36,33 @@ export class DocumentHighlight {
       this.strategies.push(findHexRGBA);
     }
 
-    if (colorWordsLanguages.indexOf(document.languageId) > -1 || viewConfig.matchWords) {
+    this.strategies.push(findAnsi4Color);
+
+    if (
+      colorWordsLanguages.indexOf(document.languageId) > -1 ||
+      viewConfig.matchWords
+    ) {
       this.strategies.push(findWords);
     }
 
     if (viewConfig.matchRgbWithNoFunction) {
       let isValid = false;
 
-      if (viewConfig.rgbWithNoFunctionLanguages.indexOf('*') > -1) {
+      if (viewConfig.rgbWithNoFunctionLanguages.indexOf("*") > -1) {
         isValid = true;
       }
 
-      if (viewConfig.rgbWithNoFunctionLanguages.indexOf(document.languageId) > -1) {
+      if (
+        viewConfig.rgbWithNoFunctionLanguages.indexOf(document.languageId) > -1
+      ) {
         isValid = true;
       }
 
-      if (viewConfig.rgbWithNoFunctionLanguages.indexOf(`!${document.languageId}`) > -1) {
+      if (
+        viewConfig.rgbWithNoFunctionLanguages.indexOf(
+          `!${document.languageId}`
+        ) > -1
+      ) {
         isValid = false;
       }
 
@@ -62,23 +70,25 @@ export class DocumentHighlight {
     }
 
     switch (document.languageId) {
-      case 'css':
+      case "css":
         this.strategies.push(findCssVars);
         break;
-      case 'less':
+      case "less":
         this.strategies.push(findLessVars);
         break;
-      case 'stylus':
+      case "stylus":
         this.strategies.push(findStylVars);
         break;
-      case 'sass':
-      case 'scss':
-        this.strategies.push(text => findScssVars(text, {
-          data: text,
-          cwd: dirname(document.uri.fsPath),
-          extensions: ['.scss', '.sass'],
-          includePaths: viewConfig.sass.includePaths || []
-        }));
+      case "sass":
+      case "scss":
+        this.strategies.push((text) =>
+          findScssVars(text, {
+            data: text,
+            cwd: dirname(document.uri.fsPath),
+            extensions: [".scss", ".sass"],
+            includePaths: viewConfig.sass.includePaths || [],
+          })
+        );
         break;
     }
 
@@ -87,7 +97,9 @@ export class DocumentHighlight {
 
   initialize(viewConfig) {
     this.decorations = new DecorationMap(viewConfig);
-    this.listner = workspace.onDidChangeTextDocument(({ document }) => this.onUpdate(document));
+    this.listner = workspace.onDidChangeTextDocument(({ document }) =>
+      this.onUpdate(document)
+    );
   }
 
   /**
@@ -97,7 +109,10 @@ export class DocumentHighlight {
    * @memberOf DocumentHighlight
    */
   onUpdate(document = this.document) {
-    if (this.disposed || this.document.uri.toString() !== document.uri.toString()) {
+    if (
+      this.disposed ||
+      this.document.uri.toString() !== document.uri.toString()
+    ) {
       return;
     }
 
@@ -115,11 +130,12 @@ export class DocumentHighlight {
    */
   async updateRange(text, version) {
     try {
-      const result = await Promise.all(this.strategies.map(fn => fn(text)));
+      const result = await Promise.all(this.strategies.map((fn) => fn(text)));
 
       const actualVersion = this.document.version.toString();
       if (actualVersion !== version) {
-        if (process.env.COLOR_HIGHLIGHT_DEBUG) throw new Error('Document version already has changed');
+        if (process.env.COLOR_HIGHLIGHT_DEBUG)
+          throw new Error("Document version already has changed");
 
         return;
       }
@@ -130,14 +146,13 @@ export class DocumentHighlight {
         return false;
       }
 
-      const updateStack = this.decorations.keys()
-        .reduce((state, color) => {
-          state[color] = [];
-          return state;
-        }, {});
+      const updateStack = this.decorations.keys().reduce((state, color) => {
+        state[color] = [];
+        return state;
+      }, {});
 
       for (const color in colorRanges) {
-        updateStack[color] = colorRanges[color].map(item => {
+        updateStack[color] = colorRanges[color].map((item) => {
           return new Range(
             this.document.positionAt(item.start),
             this.document.positionAt(item.end)
@@ -150,7 +165,9 @@ export class DocumentHighlight {
 
         window.visibleTextEditors
           .filter(({ document }) => document.uri === this.document.uri)
-          .forEach(editor => editor.setDecorations(decoration, updateStack[color]));
+          .forEach((editor) =>
+            editor.setDecorations(decoration, updateStack[color])
+          );
       }
     } catch (error) {
       console.error(error);
@@ -170,16 +187,15 @@ export class DocumentHighlight {
 }
 
 function groupByColor(results) {
-  return results
-    .reduce((collection, item) => {
-      if (!collection[item.color]) {
-        collection[item.color] = [];
-      }
+  return results.reduce((collection, item) => {
+    if (!collection[item.color]) {
+      collection[item.color] = [];
+    }
 
-      collection[item.color].push(item);
+    collection[item.color].push(item);
 
-      return collection;
-    }, {});
+    return collection;
+  }, {});
 }
 
 function concatAll(arr) {

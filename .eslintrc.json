@@ -19,7 +19,6 @@
     "no-unused-vars": "warn",
     "constructor-super": "warn",
     "valid-typeof": "warn",
-    "semi": "warn",
-    "quotes": ["warn", "single"]
+    "semi": "warn"
   }
 }
