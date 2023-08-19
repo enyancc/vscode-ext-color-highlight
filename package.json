@@ -1,9 +1,9 @@
 {
-  "name": "color-highlight",
-  "displayName": "Color Highlight",
+  "name": "color-highlight-decimals",
+  "displayName": "Color Highlight with decimals",
   "description": "Highlight web colors in your editor",
-  "version": "2.6.0",
-  "publisher": "naumovs",
+  "version": "2.7.0",
+  "publisher": "ps-george",
   "license": "GPL-3.0",
   "engines": {
     "vscode": "^1.57.0"
