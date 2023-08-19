@@ -71,12 +71,7 @@ export function getColorContrast(color) {
   // to either be white or black, so we just check both and pick whichever has
   // a higher contrast ratio.
 
-  let luminance;
-  if (!hsl) {
-    luminance = relativeLuminance(r, g, b);
-  } else {
-    luminance = hsl[3];
-  }
+  let luminance = relativeLuminance(r, g, b);
 
   // This is equivalent to `relativeLuminance(255, 255, 255)` (by definition).
   let luminanceWhite = 1.0;
