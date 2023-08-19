@@ -11,11 +11,30 @@
 // @return      string of the form #RRGGBB
 import webColors from 'color-name';
 
+/**
+ * s and l are percentages, h is an angle in degrees out of 360.
+ * @param {int} h 
+ * @param {float} s 
+ * @param {float} l 
+ * @returns {Array}
+ */
+function hsl2rgb(h, s, l) {
+  s /= 100;
+  l /= 100;
+  const k = n => (n + h / 30) % 12;
+  const a = s * Math.min(l, 1 - l);
+  const f = n =>
+    l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+  return [Math.round(255 * f(0)), Math.round(255 * f(8)), Math.round(255 * f(4))];
+};
+
 export function getColorContrast(color) {
   const rgbExp = /^rgba?[\s+]?\(\s*([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\s*,\s*([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\s*,\s*([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\s*(?:,\s*([\d.]+)\s*)?\)/im,
-    hexExp = /^(?:#)|([a-fA-F0-9]{3}|[a-fA-F0-9]{6})$/igm;
+    hexExp = /^(?:#)|([a-fA-F0-9]{3}|[a-fA-F0-9]{6})$/igm,
+    hslExp = /^hsla?[\s+]?\(\s*([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\s*,\s*([\d.]+)%\s*,\s*([\d.]+)%\s*(?:,\s*([\d.]+)\s*)?\)/im;
   let rgb = color.match(rgbExp),
     hex = color.match(hexExp),
+    hsl = color.match(hslExp),
     r, g, b;
   if (rgb) {
     r = parseInt(rgb[1], 10);
@@ -33,6 +52,11 @@ export function getColorContrast(color) {
     r = parseInt(hex.substr(0, 2), 16);
     g = parseInt(hex.substr(2, 2), 16);
     b = parseInt(hex.substr(4, 2), 16);
+  } else if (hsl) {
+    let h = parseInt(hsl[1], 10),
+      s = parseFloat(hsl[2]),
+      l = parseFloat(hsl[3]);
+    [r, g, b] = hsl2rgb(h, s, l); 
   } else {
     rgb = webColors[color.toLowerCase()];
     if (rgb) {
@@ -47,7 +71,12 @@ export function getColorContrast(color) {
   // to either be white or black, so we just check both and pick whichever has
   // a higher contrast ratio.
 
-  let luminance = relativeLuminance(r, g, b);
+  let luminance;
+  if (!hsl) {
+    luminance = relativeLuminance(r, g, b);
+  } else {
+    luminance = hsl[3];
+  }
 
   // This is equivalent to `relativeLuminance(255, 255, 255)` (by definition).
   let luminanceWhite = 1.0;

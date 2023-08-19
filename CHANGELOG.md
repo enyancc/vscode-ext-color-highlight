@@ -3,6 +3,10 @@
 
 ## [Unreleased]
 
+## [2.9.0]
+
+- Do dynamic contrast for hsl as well
+
 ## [2.8.0]
 
 ### Added
