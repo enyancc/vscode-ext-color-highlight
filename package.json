@@ -2,7 +2,7 @@
   "name": "color-highlight-decimals",
   "displayName": "Color Highlight with decimals",
   "description": "Highlight web colors in your editor",
-  "version": "2.7.0",
+  "version": "2.8.0",
   "publisher": "ps-george",
   "license": "GPL-3.0",
   "engines": {
