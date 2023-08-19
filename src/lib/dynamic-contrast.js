@@ -31,7 +31,7 @@ function hsl2rgb(h, s, l) {
 export function getColorContrast(color) {
   const rgbExp = /^rgba?[\s+]?\(\s*([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\s*,\s*([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\s*,\s*([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])\s*(?:,\s*([\d.]+)\s*)?\)/im,
     hexExp = /^(?:#)|([a-fA-F0-9]{3}|[a-fA-F0-9]{6})$/igm,
-    hslExp = /hsla?\(\s*([\d]+)\s*,\s*([\d.]+)%\s*,\s*([\d.]+)%\s*(?:,\s*([\d.]+)\s*)?\)/im;
+    hslExp = /^hsla?\(\s*([\d]+)\s*,\s*([\d.]+)%\s*,\s*([\d.]+)%\s*(?:,\s*([\d.]+)\s*)?\)/im;
   let rgb = color.match(rgbExp),
     hex = color.match(hexExp),
     hsl = color.match(hslExp),
