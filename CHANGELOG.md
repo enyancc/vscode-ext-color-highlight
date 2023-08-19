@@ -3,6 +3,12 @@
 
 ## [Unreleased]
 
+## [2.8.0]
+
+### Added
+
+- Support for hsl colors with decimal percentages
+
 ## [2.6.0]
 
 ### Added
