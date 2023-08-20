@@ -3,6 +3,20 @@
 
 ## [Unreleased]
 
+## [2.9.3]
+
+- Bugfix
+
+## [2.9.0]
+
+- Do dynamic contrast for hsl as well
+
+## [2.8.0]
+
+### Added
+
+- Support for hsl colors with decimal percentages
+
 ## [2.6.0]
 
 ### Added
