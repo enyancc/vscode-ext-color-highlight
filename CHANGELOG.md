@@ -3,6 +3,13 @@
 
 ## [Unreleased]
 
+## [2.7.0]
+
+### Added
+
+- Support for LCH color format
+- Variable syntax support when the variable defines the color (e.g., --variable-lch, rgb, oklch, etc.)
+
 ## [2.6.0]
 
 ### Added
