@@ -15,18 +15,11 @@ function createColorFunctionObject(match) {
   let color = match[0];
 
   const cssVarMatchArray = Array.from(color.matchAll(cssVarRegex));
-console.log({cssVarMatchArray});
 
   if (cssVarMatchArray.length > 0) {
-    const cssVarMatch = cssVarMatchArray[0]; // Assuming you want the first match
-
-    console.log('CSS variable match:', cssVarMatch); // Debugging line
-
+    const cssVarMatch = cssVarMatchArray[0];
     const colorFunction = cssVarMatch[2];
     const colorValues = cssVarMatch[3];
-
-    console.log('Color function:', colorFunction); // Debugging line
-    console.log('Color values:', colorValues); // Debugging line
 
     if (allowedColorFunctions.includes(colorFunction)) {
       color = `${colorFunction}(${colorValues})`;
