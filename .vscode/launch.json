@@ -9,7 +9,7 @@
       "runtimeExecutable": "${execPath}",
       "sourceMaps": true,
       "args": ["--extensionDevelopmentPath=${workspaceRoot}"],
-      "trace": true,
+      "stopOnEntry": false,
       "preLaunchTask": "npm: build",
       "env": {
         "COLOR_HIGHLIGHT_DEBUG": "true"
