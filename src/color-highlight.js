@@ -10,7 +10,7 @@ import { findStylVars } from './strategies/styl-vars';
 import { findCssVars } from './strategies/css-vars';
 import { findFn } from './strategies/functions';
 import { findRgbNoFn } from './strategies/rgbWithoutFunction';
-import { findHslNoFn } from "./strategies/hslWithoutFunction";
+import { findHslNoFn } from './strategies/hslWithoutFunction';
 import { findHexARGB, findHexRGBA } from './strategies/hex';
 import { findHwb } from './strategies/hwb';
 import { findWords } from './strategies/words';
