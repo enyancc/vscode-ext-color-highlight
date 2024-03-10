@@ -2,7 +2,7 @@
   "name": "color-highlight",
   "displayName": "Color Highlight",
   "description": "Highlight web colors in your editor",
-  "version": "2.6.0",
+  "version": "2.7.0",
   "publisher": "naumovs",
   "license": "GPL-3.0",
   "engines": {
@@ -70,6 +70,18 @@
           "type": "boolean"
         },
         "color-highlight.rgbWithNoFunctionLanguages": {
+          "default": [
+            "*"
+          ],
+          "description": "An array of language ids which should be highlighted by Color Highlight with the rgbWithNoFunction pattern. \"*\" to trigger on any language; Prepend language id with \"!\" to exclude the language (i.e \"!typescript\", \"!javascript\")",
+          "type": "array"
+        },
+        "color-highlight.matchHslWithNoFunction": {
+          "default": false,
+          "description": "Highlight hsl without functions like hsl() ('255, 100%, 80%', [255, 100%, 80%], '255 100% 80%', etc.)",
+          "type": "boolean"
+        },
+        "color-highlight.hslWithNoFunctionLanguages": {
           "default": [
             "*"
           ],
