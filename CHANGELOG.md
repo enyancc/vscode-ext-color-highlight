@@ -3,6 +3,16 @@
 
 ## [Unreleased]
 
+## [2.7.0]
+
+### Added
+
+- Support for HSL format without `hsl()` and configuration options for it (Disabled by default)
+- Support for floating-point numbers in hsl and rgb (like `343.2 15.4% 34.4%` or `rgb(100.4, 89.4%, 66.4%)`) - it's quite common in Tailwind
+
+### Fixed
+- Fix double highlighting for function `rgb()` when `rgbWithNoFunction` is enabled
+
 ## [2.6.0]
 
 ### Added
