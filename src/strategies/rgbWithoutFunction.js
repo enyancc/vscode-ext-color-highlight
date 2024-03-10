@@ -1,7 +1,7 @@
 import Color from 'color';
 
-// Using [^\S\n] to avoid matching colors between lines
-const colorRgb = /(\d{1,3})[^\S\n]*(?<commaOrSpace>[^\S\n]|,)[^\S\n]*(\d{1,3})[^\S\n]*\k<commaOrSpace>[^\S\n]*(\d{1,3})/g;
+// Using [^\S\n] to avoid matching colors between lines. Using (?:;| |$) to avoid double matching with rgb() function
+const colorRgb = /([.\d]{1,5})[^\S\n]*(?<commaOrSpace>[^\S\n]|,)[^\S\n]*([.\d]{1,5})[^\S\n]*\k<commaOrSpace>[^\S\n]*([.\d]{1,5})(?:;| |$)/g;
 
 /**
  * @export
