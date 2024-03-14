@@ -3,6 +3,10 @@
 
 ## [Unreleased]
 
+## [2.7.1]
+
+ - Updated node dependencies.
+
 ## [2.7.0]
 
 ### Added
