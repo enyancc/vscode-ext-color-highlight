@@ -10,6 +10,7 @@ import { findStylVars } from './strategies/styl-vars';
 import { findCssVars } from './strategies/css-vars';
 import { findFn } from './strategies/functions';
 import { findRgbNoFn } from './strategies/rgbWithoutFunction';
+import { findHslNoFn } from './strategies/hslWithoutFunction';
 import { findHexARGB, findHexRGBA } from './strategies/hex';
 import { findHwb } from './strategies/hwb';
 import { findWords } from './strategies/words';
@@ -59,6 +60,24 @@ export class DocumentHighlight {
       }
 
       if (isValid) this.strategies.push(findRgbNoFn);
+    }
+
+    if (viewConfig.matchHslWithNoFunction) {
+      let isValid = false;
+
+      if (viewConfig.hslWithNoFunctionLanguages.indexOf('*') > -1) {
+        isValid = true;
+      }
+
+      if (viewConfig.hslWithNoFunctionLanguages.indexOf(document.languageId) > -1) {
+        isValid = true;
+      }
+
+      if (viewConfig.hslWithNoFunctionLanguages.indexOf(`!${document.languageId}`) > -1) {
+        isValid = false;
+      }
+
+      if (isValid) this.strategies.push(findHslNoFn);
     }
 
     switch (document.languageId) {

@@ -1,7 +1,8 @@
 import Color from 'color';
 
 // Using [^\S\n] to avoid matching colors between lines. Using (?:;| |$) to avoid double matching with rgb() function
-const colorRgb = /([.\d]{1,5})[^\S\n]*(?<commaOrSpace>[^\S\n]|,)[^\S\n]*([.\d]{1,5})[^\S\n]*\k<commaOrSpace>[^\S\n]*([.\d]{1,5})(?:;| |$)/g;
+const colorHsl =
+  /([.\d]{1,5})[^\S\n]*(?<commaOrSpace>[^\S\n]|,)[^\S\n]*([.\d]{1,5}%)[^\S\n]*\k<commaOrSpace>[^\S\n]*([.\d]{1,5}%)(?:;| |$)/g;
 
 /**
  * @export
@@ -12,32 +13,32 @@ const colorRgb = /([.\d]{1,5})[^\S\n]*(?<commaOrSpace>[^\S\n]|,)[^\S\n]*([.\d]{1
  *  color: string
  * }}
  */
-export async function findRgbNoFn(text) {
-  let match = colorRgb.exec(text);
+export async function findHslNoFn(text) {
+  let match = colorHsl.exec(text);
   let result = [];
 
   while (match !== null) {
-    const [matchedColor, red, , green, blue] = match;
+    const [matchedColor, hue, , saturation, lightness] = match;
     const start = match.index + (match[0].length - matchedColor.length);
-    const end = colorRgb.lastIndex;
+    const end = colorHsl.lastIndex;
 
     try {
-      const color = Color.rgb(
-        parseInt(red),
-        parseInt(green),
-        parseInt(blue)
+      const color = Color.hsl(
+        parseInt(hue),
+        parseInt(saturation),
+        parseInt(lightness)
       ).string();
 
       result.push({
         start,
         end,
-        color
+        color,
       });
     } catch (e) {
       console.error(e);
     }
 
-    match = colorRgb.exec(text);
+    match = colorHsl.exec(text);
   }
 
   return result;
