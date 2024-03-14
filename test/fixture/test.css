@@ -1,12 +1,20 @@
-.red { color: red; }
-.red { color: #f00; }
-.red { color: #ff0000; }
+@root {
+  --test-color: #FFFF00;
+}
+
+.red { color: #d51f1faa; }
+.red { color: #7b1f1fb2; }
+.red { color: #9d2727e5; }
 .red { color: rgb(255, 0, 0); }
 .red { color: rgb(100%, 0%, 0%); }
 .red { color: rgba(255, 0, 0, 1); }
-.red { color: rgba(100%, 0%, 0%, 1); }
+.red { color: rgb(133, 52, 52); }
 .red { color: rgba(255 0 0 / 100%); }
-.red { color: hsl(0, 100%, 50%); }
 .red { color: hsla(0, 100%, 50%, 1); }
 .red { color: hwb(360, 0%, 0%); }
 .red { color: hwb(360, 0%, 0%, 1); }
+
+.test-color {
+  color: var(--test-color);
+}
+
