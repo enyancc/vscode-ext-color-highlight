@@ -15,6 +15,8 @@ Please answer the questions in this questionnaire. Your feedback is very valuabl
 
 ## Contributors
 
+- [chadgauth](https://github.com/chadgauth) - Support for LCH color format
+- [LucasMatuszewski](https://github.com/LucasMatuszewski) - Support for floating-point numbers in hsl and rgb
 - [lochstar](https://github.com/lochstar) - Styling modes for the marker
 
 Feel free to contribute!
