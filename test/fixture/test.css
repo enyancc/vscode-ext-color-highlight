@@ -16,5 +16,7 @@
 
 .test-color {
   color: var(--test-color);
+  background-color: oklch(40.1% 0.123 21.57);
+  border-color: lch(40.1% 0.123 21.57);
 }
 

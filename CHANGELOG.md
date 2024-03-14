@@ -3,6 +3,11 @@
 
 ## [Unreleased]
 
+## [2.8.0]
+
+- Support for LCH color format
+- Variable syntax support when the variable defines the color (e.g., --variable-lch, rgb, oklch, etc.)
+
 ## [2.7.1]
 
  - Updated node dependencies.
